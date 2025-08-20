@@ -11,10 +11,10 @@ This template has been updated for:
 - [Phaser 3.90.0](https://github.com/phaserjs/phaser)
 - [Vite 6.3.1](https://github.com/vitejs/vite)
 
-#The first game screen
+# The first game screen
 ![screenshot](screenshot.png)
 
-#The second game screen
+# The second game screen
 ![screenshot](screenshot2.png)
 
 ## Requirements
