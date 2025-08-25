@@ -1,41 +1,32 @@
-import {
-  AUTO,
-  Game,
-  Scale,
-} from 'phaser';
-
-import {
-  GAME_HEIGHT,
-  GAME_WIDTH,
-} from '../consts/keys';
-import Boot from './Boot';
-import MyGame from './MyGame';
-import Preloader from './Preloader';
-import TileScreen from './TileScreen';
+import * as Phaser from "phaser";
+import Boot from "./Boot";
+import MyGame from "./MyGame";
+import Preloader from "./Preloader";
+import MainMenu from "./Menu";
+import Keys from "../consts";
 
 //  Find out more information about the Game Config at:
 //  https://docs.phaser.io/api-documentation/typedef/types-core#gameconfig
 const config = {
-    type: AUTO,
-    width: GAME_WIDTH,
-    height: GAME_HEIGHT,
-    parent: "game-container",
-    backgroundColor: '#1a252f',
+    type: Phaser.AUTO,
+    width: Keys.game.width,
+    height: Keys.game.height,
+    backgroundColor: "#1a252f",
     scale: {
-        mode: Scale.FIT,
-        autoCenter: Scale.CENTER_BOTH,
-        width: GAME_WIDTH,
-        height: GAME_HEIGHT
+        mode: Phaser.Scale.FIT,
+        autoCenter: Phaser.Scale.CENTER_BOTH,
+        width: Keys.game.width,
+        height: Keys.game.height,
     },
     physics: {
-        default: 'arcade',
-        arcade: { gravity: { y: 0 }, debug: false }
+        default: "arcade",
+        arcade: { gravity: { y: 0 }, debug: false },
     },
-    scene: [Boot, Preloader, TileScreen, MyGame],
+    scene: [Boot, Preloader, MainMenu, MyGame],
 };
 
 const StartGame = (parent) => {
-    return new Game({ ...config, parent });
+    return new Phaser.Game({ ...config, parent });
 };
 
 export default StartGame;

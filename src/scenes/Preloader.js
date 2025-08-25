@@ -1,58 +1,78 @@
-import { Scene } from 'phaser';
+import MyWebFont from "./MyWebFont";
+import Keys from "../consts";
+import Colors from "../consts/color";
 
-import { key_values } from '../consts/keys';
-import MyWebFont from './MyWebFont';
-
-class Preloader extends Scene {
+class Preloader extends Phaser.Scene {
     constructor() {
-        super(key_values.scene.preloader);
+        super(Keys.scene.preload);
     }
-
-    // init() {
-    //     //  We loaded this image in our Boot Scene, so we can display it here
-    //     this.add.image(512, 384, key_values.image.key.bg);
-
-    //     //  A simple progress bar. This is the outline of the bar.
-    //     this.add.rectangle(512, 384, 468, 32).setStrokeStyle(1, 0xffffff);
-
-    //     //  This is the progress bar itself. It will increase in size from the left based on the % of progress.
-    //     const bar = this.add.rectangle(512 - 230, 384, 4, 28, 0xffffff);
-
-    //     //  Use the 'progress' event emitted by the LoaderPlugin to update the loading bar
-    //     this.load.on('progress', (progress) => {
-
-    //         //  Update the progress bar (our bar is 464px wide, so 100% = 464px)
-    //         bar.width = 4 + (460 * progress);
-
-    //     });
-    // }
-
     preload() {
+        // background
+        this.add.image(Keys.game.width / 2, Keys.game.height / 2, Keys.image.key.bg).alpha = 0.8;
+
+        // progress container (outline with rounded corners)
+        const progressBox = this.add.graphics();
+        progressBox.lineStyle(2, 0xffffff, 1);
+        progressBox.strokeRoundedRect(Keys.game.width / 2 - 230, Keys.game.height / 2 - 14, 460, 28, 8);
+
+        // progress bar (filled rounded rect)
+        const progressBar = this.add.graphics();
+
+        // text
+        const progressText = this.add
+            .text(Keys.game.width / 2, Keys.game.height / 2 + 50, "Loading: 0%", {
+                fontSize: "20px",
+                fill: Colors.primary,
+            })
+            .setOrigin(0.5);
+
+        this.fakeProgress = 0;
+        this.speed = 1500;
+
+        // listen for loader progress
+        this.load.on("progress", (progress) => {
+            // tweened smooth progress
+            this.tweens.add({
+                targets: this,
+                fakeProgress: progress,
+                duration: this.speed,
+                ease: "Linear",
+                onUpdate: () => {
+                    progressBar.clear();
+                    progressBar.fillStyle(Colors.green, 1);
+                    progressBar.fillRoundedRect(
+                        Keys.game.width / 2 - 230,
+                        Keys.game.height / 2 - 14,
+                        460 * this.fakeProgress,
+                        28,
+                        8
+                    );
+                    progressText.setText(`Loading: ${Math.round(this.fakeProgress * 100)}%`);
+                },
+            });
+        });
+
         // Load assets with error handling
         try {
             const fonts = new MyWebFont(this.load, ["Press Start 2P"]);
             this.load.addFile(fonts);
 
-            this.load.image(key_values.image.key.bg, key_values.image.path.bg);
-            this.load.image(key_values.image.key.left, key_values.image.path.left);
-            this.load.image(key_values.image.key.right, key_values.image.path.right);
-            this.load.image(key_values.image.key.ball, key_values.image.path.ball);
+            this.load.image(Keys.image.key.left, Keys.image.value.left);
+            this.load.image(Keys.image.key.right, Keys.image.value.right);
+            this.load.image(Keys.image.key.ball, Keys.image.value.ball);
 
-            this.load.audio(
-                key_values.audio.key.pong_beep,
-                key_values.audio.path.pong_beep
-            );
-            this.load.audio(
-                key_values.audio.key.pong_plop,
-                key_values.audio.path.pong_plop
-            );
+            this.load.audio(Keys.audio.key.pongBeep, Keys.audio.value.pongBeep);
+            this.load.audio(Keys.audio.key.pongPlop, Keys.audio.value.pongPlop);
+            this.load.audio(Keys.audio.key.splash, Keys.audio.value.splash);
         } catch (error) {
             console.error("Asset loading failed:", error);
         }
     }
 
     create() {
-        this.scene.start(key_values.scene.tile_screen);
+        this.time.delayedCall(this.speed, () => {
+            this.scene.start(Keys.scene.menu);
+        });
     }
 }
 

@@ -1,10 +1,9 @@
-import { Loader } from 'phaser';
-import WebFontLoader from 'webfontloader';
+import WebFontLoader from "webfontloader";
 
-class MyWebFont extends Loader.File {
-    constructor(loader, fontNames, service = 'google') {
+class MyWebFont extends Phaser.Loader.File {
+    constructor(loader, fontNames, service = "google") {
         super(loader, {
-            type: 'webfont',
+            type: "webfont",
             key: fontNames.toString(),
         });
 
@@ -15,11 +14,11 @@ class MyWebFont extends Loader.File {
     load() {
         const config = {
             active: () => this.loader.nextFile(this, true),
-        }
+        };
 
         switch (this.service) {
-            case 'google':
-                config['google'] = { families: this.fontNames };
+            case "google":
+                config["google"] = { families: this.fontNames };
                 break;
             default:
                 console.warn(`Unknown web font service: ${this.service}`);

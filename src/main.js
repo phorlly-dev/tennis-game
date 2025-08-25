@@ -1,4 +1,4 @@
-import StartGame from './scenes/Start';
+import StartGame from "./scenes/Start";
 
 document.addEventListener("DOMContentLoaded", () => {
     StartGame("phaser-game");

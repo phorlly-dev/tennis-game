@@ -1,13 +1,16 @@
-import { Scene } from 'phaser';
+import Keys from "../consts";
 
-import { key_values } from '../consts/keys';
-
-class Boot extends Scene {
+class Boot extends Phaser.Scene {
     constructor() {
-        super(key_values.scene.boot);
+        super(Keys.scene.boot);
     }
+
+    preload() {
+        this.load.image(Keys.image.key.bg, Keys.image.value.bg);
+    }
+
     create() {
-        this.scene.start(key_values.scene.preloader);
+        this.scene.start(Keys.scene.preload);
     }
 }
 
