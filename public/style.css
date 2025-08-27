@@ -7,7 +7,7 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    font-family: "Arial", sans-serif;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana,"Arial", sans-serif;
     overflow: hidden;
 }
 
@@ -40,38 +40,117 @@ body {
     display: block;
 }
 
-.controls {
+/* Control card */
+#controls-card {
+    background: #2c3e50;
+    padding: 15px;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    margin: 20px auto;
+    width: fit-content;
+}
+
+.control-btn {
+    font-size: 20px;
+    padding: 15px;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    cursor: pointer;
     color: white;
-    margin-top: 14px;
-    font-size: 14px;
-    text-align: center;
-    max-width: 90vw;
+    display: none;
 }
 
-.controls h3 {
-    color: #3498db;
-    margin: 5px 0 10px 0;
+.control-btn.up {
+    background: #3498db;
+} /* blue */
+.control-btn.down {
+    background: #2ecc71;
+} /* green */
+.control-btn.play {
+    background: #f39c12;
+} /* orange */
+.control-btn.pause {
+    background: #e74c3c;
+} /* red */
+.control-btn.guide {
+    background: #9b59b6;
+} /* purple */
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+}
+
+.modal-content {
+    background: #34495e;
+    margin: 10% auto;
+    padding: 20px;
+    border-radius: 12px;
+    width: 80%;
+    max-width: 400px;
+    color: white;
+}
+
+.close {
+    float: right;
     font-size: 24px;
-    text-align: center;
-    max-width: 90vw;
+    cursor: pointer;
 }
 
-.controls p {
-    margin: 3px 0;
+.guide-card {
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 6px;
     font-size: 16px;
-    line-height: 2;
-    text-align: start;
-    max-width: 90vw;
 }
 
-@media (max-width: 768px) {
-    .controls {
-        font-size: 12px;
-    }
-    .controls h3 {
-        font-size: 14px;
-    }
-    .controls p {
-        font-size: 10px;
-    }
+.guide-card.blue {
+    background: #3498db;
+}
+.guide-card.green {
+    background: #2ecc71;
+}
+.guide-card.red {
+    background: #e74c3c;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+}
+
+.modal-content {
+    background: #2c3e50;
+    margin: 8% auto;
+    padding: 20px;
+    border-radius: 12px;
+    width: 85%;
+    max-width: 500px;
+    color: #ecf0f1;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.close {
+    float: right;
+    font-size: 24px;
+    cursor: pointer;
 }

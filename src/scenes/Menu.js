@@ -1,33 +1,67 @@
-import Keys from "../consts";
+import Instances from "../consts";
 import Fonts from "../consts/font";
+import Bases from "../utils";
+import Handles from "../utils/handle";
+import States from "../utils/state";
 
-class MainMenu extends Phaser.Scene {
+class Menu extends Phaser.Scene {
     constructor() {
-        super(Keys.scene.menu);
+        super(Instances.scene.menu);
     }
 
     create() {
-        this.add.image(512, 384, Keys.image.key.bg);
-        const title = this.add.text(Keys.game.width / 2, Keys.game.height / 2 - 50, "Old School Tennis", {
-            fontSize: "48px",
-            fontFamily: Fonts.pressStart2P,
-        });
-        title.setOrigin(0.5, 0.5);
-        const startText = this.add.text(
-            Keys.game.width / 2,
-            Keys.game.height / 2 + 100,
-            "Press Space to Start",
-            {
+        States.hideShow(false);
+        this.add.image(512, 384, Instances.image.key.bg);
+        Bases.text({
+            scene: this,
+            x: Instances.game.width / 2,
+            y: Instances.game.height / 2 - 50,
+            title: "Old School Tennis",
+            style: {
+                fontSize: "48px",
                 fontFamily: Fonts.pressStart2P,
-            }
-        );
-        startText.setOrigin(0.5, 0.5);
-
-        this.input.keyboard.once("keydown-SPACE", () => {
-            this.sound.play(Keys.audio.key.pongBeep);
-            this.scene.start(Keys.scene.start);
+            },
         });
+        this.desktop = Bases.text({
+            scene: this,
+            x: Instances.game.width / 2,
+            y: Instances.game.height / 2 + 100,
+            title: "Press Space or Click to Start!",
+            style: {
+                fontFamily: Fonts.pressStart2P,
+            },
+        });
+        this.mobile = Bases.text({
+            scene: this,
+            x: Instances.game.width / 2,
+            y: Instances.game.height / 2 + 100,
+            title: "▶ Tap to Start!",
+            style: {
+                fontFamily: Fonts.pressStart2P,
+            },
+        });
+        Handles.event({
+            scene: this,
+            Instances: ["keydown-SPACE", "pointerdown"],
+            callback: () => {
+                // same unlock logic
+                if (this.sound.locked) {
+                    this.sound.once(Phaser.Sound.Events.UNLOCKED, () => {
+                        this.sound.play(Instances.audio.key.pongBeep);
+                        this.scene.start(Instances.scene.start);
+                    });
+                } else {
+                    this.sound.play(Instances.audio.key.pongBeep);
+                    this.scene.start(Instances.scene.start);
+                }
+            },
+        });
+    }
+
+    update() {
+        this.mobile.setVisible(Bases.isMobile());
+        this.desktop.setVisible(!Bases.isMobile());
     }
 }
 
-export default MainMenu;
+export default Menu;

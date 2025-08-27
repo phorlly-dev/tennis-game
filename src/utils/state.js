@@ -1,5 +1,5 @@
 import Bases from ".";
-import Keys from "../consts";
+import Instances from "../consts";
 import Payloads from "./playload";
 
 const States = {
@@ -28,8 +28,8 @@ const States = {
             scene.ball.y = 12;
             scene.ball.body.velocity.y = Math.abs(scene.ball.body.velocity.y);
             Bases.flashEffect(scene);
-        } else if (scene.ball.y >= Keys.game.height - 12) {
-            scene.ball.y = Keys.game.height - 12;
+        } else if (scene.ball.y >= Instances.game.height - 12) {
+            scene.ball.y = Instances.game.height - 12;
             scene.ball.body.velocity.y = -Math.abs(scene.ball.body.velocity.y);
             Bases.flashEffect(scene);
         }
@@ -42,12 +42,27 @@ const States = {
             Payloads.updateScore(scene);
             Payloads.resetBall(scene);
             Bases.checkGameEnd(scene);
-        } else if (scene.ball.x > Keys.game.width + 20) {
+        } else if (scene.ball.x > Instances.game.width + 20) {
             // Ball went past right side - Player scores
             scene.leftScore++;
             Payloads.updateScore(scene);
             Payloads.resetBall(scene);
             Bases.checkGameEnd(scene);
+        }
+    },
+    hideShow: (isVisible) => {
+        const up = Bases.getBy(".up").style;
+        const down = Bases.getBy(".down").style;
+        const pause = Bases.getBy(".pause").style;
+
+        if (isVisible) {
+            up.display = "block";
+            down.display = "block";
+            pause.display = "block";
+        } else {
+            up.display = "none";
+            down.display = "none";
+            pause.display = "none";
         }
     },
 };

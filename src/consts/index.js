@@ -1,4 +1,4 @@
-const Keys = {
+const Instances = {
     game: {
         width: 1024,
         height: 600,
@@ -6,10 +6,10 @@ const Keys = {
         ballSpeed: 400,
         playerSpeed: 500,
         botSpeed: 300,
-        running: "game-running",
-        paused: "game-paused",
-        youWin: "you-win",
-        botWin: "bot-win",
+        running: "GameRunning",
+        paused: "GamePaused",
+        youWin: "YouYin",
+        botWin: "BotWin",
     },
     scene: {
         menu: "game-menu",
@@ -24,12 +24,14 @@ const Keys = {
             left: "paddle-left",
             right: "paddle-right",
             ball: "ball",
+            play: "play",
         },
         value: {
             bg: "assets/images/bg.png",
             left: "assets/images/left.png",
             right: "assets/images/right.png",
             ball: "assets/images/ball.png",
+            play: "assets/images/play.png",
         },
     },
     audio: {
@@ -46,4 +48,4 @@ const Keys = {
     },
 };
 
-export default Keys;
+export default Instances;

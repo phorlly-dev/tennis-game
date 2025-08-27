@@ -1,26 +1,26 @@
 import MyWebFont from "./MyWebFont";
-import Keys from "../consts";
+import Instances from "../consts";
 import Colors from "../consts/color";
 
 class Preloader extends Phaser.Scene {
     constructor() {
-        super(Keys.scene.preload);
+        super(Instances.scene.preload);
     }
     preload() {
         // background
-        this.add.image(Keys.game.width / 2, Keys.game.height / 2, Keys.image.key.bg).alpha = 0.8;
+        this.add.image(Instances.game.width / 2, Instances.game.height / 2, Instances.image.key.bg).alpha = 0.8;
 
         // progress container (outline with rounded corners)
         const progressBox = this.add.graphics();
         progressBox.lineStyle(2, 0xffffff, 1);
-        progressBox.strokeRoundedRect(Keys.game.width / 2 - 230, Keys.game.height / 2 - 14, 460, 28, 8);
+        progressBox.strokeRoundedRect(Instances.game.width / 2 - 230, Instances.game.height / 2 - 14, 460, 28, 8);
 
         // progress bar (filled rounded rect)
         const progressBar = this.add.graphics();
 
         // text
         const progressText = this.add
-            .text(Keys.game.width / 2, Keys.game.height / 2 + 50, "Loading: 0%", {
+            .text(Instances.game.width / 2, Instances.game.height / 2 + 50, "Loading: 0%", {
                 fontSize: "20px",
                 fill: Colors.primary,
             })
@@ -41,8 +41,8 @@ class Preloader extends Phaser.Scene {
                     progressBar.clear();
                     progressBar.fillStyle(Colors.green, 1);
                     progressBar.fillRoundedRect(
-                        Keys.game.width / 2 - 230,
-                        Keys.game.height / 2 - 14,
+                        Instances.game.width / 2 - 230,
+                        Instances.game.height / 2 - 14,
                         460 * this.fakeProgress,
                         28,
                         8
@@ -57,13 +57,14 @@ class Preloader extends Phaser.Scene {
             const fonts = new MyWebFont(this.load, ["Press Start 2P"]);
             this.load.addFile(fonts);
 
-            this.load.image(Keys.image.key.left, Keys.image.value.left);
-            this.load.image(Keys.image.key.right, Keys.image.value.right);
-            this.load.image(Keys.image.key.ball, Keys.image.value.ball);
+            this.load.image(Instances.image.key.left, Instances.image.value.left);
+            this.load.image(Instances.image.key.right, Instances.image.value.right);
+            this.load.image(Instances.image.key.ball, Instances.image.value.ball);
+            this.load.image(Instances.image.key.play, Instances.image.value.play);
 
-            this.load.audio(Keys.audio.key.pongBeep, Keys.audio.value.pongBeep);
-            this.load.audio(Keys.audio.key.pongPlop, Keys.audio.value.pongPlop);
-            this.load.audio(Keys.audio.key.splash, Keys.audio.value.splash);
+            this.load.audio(Instances.audio.key.pongBeep, Instances.audio.value.pongBeep);
+            this.load.audio(Instances.audio.key.pongPlop, Instances.audio.value.pongPlop);
+            this.load.audio(Instances.audio.key.splash, Instances.audio.value.splash);
         } catch (error) {
             console.error("Asset loading failed:", error);
         }
@@ -71,7 +72,7 @@ class Preloader extends Phaser.Scene {
 
     create() {
         this.time.delayedCall(this.speed, () => {
-            this.scene.start(Keys.scene.menu);
+            this.scene.start(Instances.scene.menu);
         });
     }
 }

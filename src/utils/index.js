@@ -1,29 +1,35 @@
-import Keys from "../consts";
+import Instances from "../consts";
+import Fonts from "../consts/font";
+import Handles from "./handle";
 import Payloads from "./playload";
 
 const Bases = {
     flashEffect: (scene) => {
         scene.cameras.main.flash(100, 255, 255, 255, false);
-        scene.sound.play(Keys.audio.key.splash, { volume: 0.5 });
+        Handles.sound({ scene: scene, key: Instances.audio.key.splash });
     },
     checkGameEnd: (scene) => {
-        if (scene.leftScore >= Keys.game.maxScore) {
-            scene.gameState = Keys.game.youWin;
+        if (scene.leftScore >= Instances.game.maxScore) {
+            scene.gameState = Instances.game.youWin;
             Payloads.showGameOver(scene, "YOU WIN!", "#27ae60");
-        } else if (scene.rightScore >= Keys.game.maxScore) {
-            scene.gameState = Keys.game.botWin;
+        } else if (scene.rightScore >= Instances.game.maxScore) {
+            scene.gameState = Instances.game.botWin;
             Payloads.showGameOver(scene, "AI WINS!", "#e74c3c");
         }
     },
     pauseGame: (scene) => {
-        scene.gameState = Keys.game.paused;
+        scene.gameState = Instances.game.paused;
         scene.physics.pause();
         scene.pauseText.setVisible(true);
+        scene.iconPlay.setVisible(true);
+        Handles.sound({ scene: scene, key: Instances.audio.key.pongBeep });
     },
     resumeGame: (scene) => {
-        scene.gameState = Keys.game.running;
+        scene.gameState = Instances.game.running;
         scene.physics.resume();
         scene.pauseText.setVisible(false);
+        scene.iconPlay.setVisible(false);
+        Handles.sound({ scene: scene, key: Instances.audio.key.pongPlop });
     },
     restartGame: (scene) => {
         // Reset scores
@@ -32,7 +38,7 @@ const Bases = {
         Payloads.updateScore(scene);
 
         // Reset game state
-        scene.gameState = Keys.game.running;
+        scene.gameState = Instances.game.running;
 
         // Hide UI elements
         scene.gameOverText.setVisible(false);
@@ -40,13 +46,28 @@ const Bases = {
         scene.pauseText.setVisible(false);
 
         // Reset positions
-        scene.paddleLeft.setPosition(50, Keys.game.height / 2);
-        scene.paddleRight.setPosition(Keys.game.width - 50, Keys.game.height / 2);
+        scene.paddleLeft.setPosition(50, Instances.game.height / 2);
+        scene.paddleRight.setPosition(Instances.game.width - 50, Instances.game.height / 2);
 
         // Resume physics and reset ball
         scene.physics.resume();
         Payloads.resetBall(scene);
+        Handles.sound({ scene: scene, key: Instances.audio.key.pongBeep });
     },
+    text: ({ scene, x, y, title, style = {}, isVisible = true }) => {
+        const sty = { fontFamily: Fonts.courierNew, align: "center" };
+        const txt = scene.add
+            .text(x, y, title, { ...sty, ...style })
+            .setOrigin(0.5)
+            .setVisible(isVisible);
+
+        return txt;
+    },
+    isMobile: () => /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || window.innerWidth < 768,
+    getBy: (element) => document.querySelector(element),
+    moveUp: (object, vector) => object.body.setVelocityY(vector),
+    moveDown: (object, vector) => object.body.setVelocityY(-vector),
+    stop: (object) => object.body.setVelocityY(0),
 };
 
 export default Bases;
