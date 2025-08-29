@@ -10,5 +10,5 @@ function setupModal(buttonId, modalId) {
     };
 }
 
-setupModal("btn-guide-desktop", "modal-desktop");
-setupModal("btn-guide-mobile", "modal-mobile");
+setupModal("desktop-btn", "modal-desktop");
+setupModal("mobile-btn", "modal-mobile");

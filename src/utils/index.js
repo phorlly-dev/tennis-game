@@ -2,11 +2,12 @@ import Instances from "../consts";
 import Fonts from "../consts/font";
 import Handles from "./handle";
 import Payloads from "./playload";
+import States from "./state";
 
 const Bases = {
     flashEffect: (scene) => {
         scene.cameras.main.flash(100, 255, 255, 255, false);
-        Handles.sound({ scene: scene, key: Instances.audio.key.splash });
+        Handles.playSound(scene, Instances.audio.key.splash);
     },
     checkGameEnd: (scene) => {
         if (scene.leftScore >= Instances.game.maxScore) {
@@ -21,21 +22,20 @@ const Bases = {
         scene.gameState = Instances.game.paused;
         scene.physics.pause();
         scene.pauseText.setVisible(true);
-        scene.iconPlay.setVisible(true);
-        Handles.sound({ scene: scene, key: Instances.audio.key.pongBeep });
+        Handles.playSound(scene, Instances.audio.key.pongBeep);
     },
     resumeGame: (scene) => {
         scene.gameState = Instances.game.running;
         scene.physics.resume();
         scene.pauseText.setVisible(false);
-        scene.iconPlay.setVisible(false);
-        Handles.sound({ scene: scene, key: Instances.audio.key.pongPlop });
+        Handles.playSound(scene, Instances.audio.key.pongPlop);
     },
     restartGame: (scene) => {
         // Reset scores
         scene.leftScore = 0;
         scene.rightScore = 0;
-        Payloads.updateScore(scene);
+        Payloads.setPlayerScore(scene.leftScore);
+        Payloads.setBotScore(scene.rightScore);
 
         // Reset game state
         scene.gameState = Instances.game.running;
@@ -52,7 +52,7 @@ const Bases = {
         // Resume physics and reset ball
         scene.physics.resume();
         Payloads.resetBall(scene);
-        Handles.sound({ scene: scene, key: Instances.audio.key.pongBeep });
+        Handles.playSound(scene, Instances.audio.key.pongBeep);
     },
     text: ({ scene, x, y, title, style = {}, isVisible = true }) => {
         const sty = { fontFamily: Fonts.courierNew, align: "center" };
@@ -64,10 +64,10 @@ const Bases = {
         return txt;
     },
     isMobile: () => /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || window.innerWidth < 768,
-    getBy: (element) => document.querySelector(element),
-    moveUp: (object, vector) => object.body.setVelocityY(vector),
-    moveDown: (object, vector) => object.body.setVelocityY(-vector),
-    stop: (object) => object.body.setVelocityY(0),
+    getById: (id) => document.getElementById(id),
+    moveUp: (element, vector) => element.body.setVelocityY(vector),
+    moveDown: (element, vector) => element.body.setVelocityY(-vector),
+    stop: (element) => element.body.setVelocityY(0),
 };
 
 export default Bases;

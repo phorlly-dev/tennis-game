@@ -39,30 +39,15 @@ const States = {
         if (scene.ball.x < -20) {
             // Ball went past left side - AI scores
             scene.rightScore++;
-            Payloads.updateScore(scene);
+            Payloads.setBotScore(scene.rightScore);
             Payloads.resetBall(scene);
             Bases.checkGameEnd(scene);
         } else if (scene.ball.x > Instances.game.width + 20) {
             // Ball went past right side - Player scores
             scene.leftScore++;
-            Payloads.updateScore(scene);
+            Payloads.setPlayerScore(scene.leftScore);
             Payloads.resetBall(scene);
             Bases.checkGameEnd(scene);
-        }
-    },
-    hideShow: (isVisible) => {
-        const up = Bases.getBy(".up").style;
-        const down = Bases.getBy(".down").style;
-        const pause = Bases.getBy(".pause").style;
-
-        if (isVisible) {
-            up.display = "block";
-            down.display = "block";
-            pause.display = "block";
-        } else {
-            up.display = "none";
-            down.display = "none";
-            pause.display = "none";
         }
     },
 };

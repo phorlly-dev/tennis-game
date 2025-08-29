@@ -65,6 +65,7 @@ class Preloader extends Phaser.Scene {
             this.load.audio(Instances.audio.key.pongBeep, Instances.audio.value.pongBeep);
             this.load.audio(Instances.audio.key.pongPlop, Instances.audio.value.pongPlop);
             this.load.audio(Instances.audio.key.splash, Instances.audio.value.splash);
+            this.load.audio(Instances.audio.key.playing, Instances.audio.value.playing);
         } catch (error) {
             console.error("Asset loading failed:", error);
         }

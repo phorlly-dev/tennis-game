@@ -1,5 +1,6 @@
 import Bases from ".";
 import Instances from "../consts";
+import Handles from "./handle";
 
 const Payloads = {
     showGameOver: (scene, message, color) => {
@@ -12,13 +13,11 @@ const Payloads = {
         scene.gameOverText.setVisible(true);
         scene.restartText.setVisible(true);
 
-        scene.pauseBtn.style.display = "none";
-        scene.playBtn.style.display = "block";
+        Handles.hide({ element: scene.pauseBtn });
+        Handles.show({ element: scene.playBtn });
     },
-    updateScore: (scene) => {
-        scene.leftScoreText.setText(`Player: ${scene.leftScore}`);
-        scene.rightScoreText.setText(`AI: ${scene.rightScore}`);
-    },
+    setBotScore: (score) => (Bases.getById("bot").textContent = score),
+    setPlayerScore: (score) => (Bases.getById("player").textContent = score),
     resetBall: (scene) => {
         // Reset position to center
         scene.ball.setPosition(Instances.game.width / 2, Instances.game.height / 2);
@@ -34,16 +33,16 @@ const Payloads = {
     },
     togglePauseOrRestart: (scene) => {
         if (scene.gameState === Instances.game.running) {
-            scene.pauseBtn.style.display = "none";
-            scene.playBtn.style.display = "block";
+            Handles.hide({ element: scene.pauseBtn });
+            Handles.show({ element: scene.playBtn });
             Bases.pauseGame(scene);
         } else if (scene.gameState === Instances.game.paused) {
-            scene.pauseBtn.style.display = "block";
-            scene.playBtn.style.display = "none";
+            Handles.show({ element: scene.pauseBtn });
+            Handles.hide({ element: scene.playBtn });
             Bases.resumeGame(scene);
         } else if (scene.gameState === Instances.game.youWin || scene.gameState === Instances.game.botWin) {
-            scene.pauseBtn.style.display = "block";
-            scene.playBtn.style.display = "none";
+            Handles.show({ element: scene.pauseBtn });
+            Handles.hide({ element: scene.playBtn });
             Bases.restartGame(scene);
         }
     },

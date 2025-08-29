@@ -5,39 +5,39 @@
         <link rel="icon" type="image/png" href="/favicon.png" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" href="/style.css" />
-        <link rel="stylesheet" href="/style-btn.css" />
-        <link rel="stylesheet" href="/style-game.css" />
-        <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-        />
-
-        <title>Tennis</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+        <title>Tennis Game</title>
     </head>
 
     <body>
-        <div id="game-container">
-            <div id="phaser-game"></div>
-            <div id="controls-card" class="container">
-                <button class="control-btn up"><i class="fa fa-arrow-up"></i></button>
-                <button class="control-btn down"><i class="fa fa-arrow-down"></i></button>
-                <button class="control-btn play"><i class="fa fa-play"></i></button>
-                <button class="control-btn pause"><i class="fa fa-pause"></i></button>
-                <button id="btn-guide-desktop" class="control-btn guide">💻</button>
-                <button id="btn-guide-mobile" class="control-btn guide">📱</button>
+        <div id="game-container" class="ui-wrapper container">
+            <!-- Row 1: UI -->
+            <div id="ui" class="ui-row hidden">
+                <div class="status">
+                    <div class="player">💯 Player: <span id="player">0</span></div>
+                    —
+                    <div class="ai">💯 AI: <span id="bot">0</span></div>
+                </div>
+
+                <div class="actions">
+                    <button id="desktop-btn" class="control-btn guide">💻</button>
+                    <button id="mobile-btn" class="control-btn guide hidden">📱</button>
+
+                    <button id="pause-btn" class="control-btn pause"><i class="fa fa-pause"></i></button>
+                    <button id="play-btn" class="control-btn play hidden"><i class="fa fa-play"></i></button>
+
+                    <button id="on-btn" class="control-btn volume"><i class="fa fa-volume-up"></i></button>
+                    <button id="off-btn" class="control-btn volume muted hidden"><i class="fa fa-volume-mute"></i></button>
+                </div>
             </div>
 
-            <!-- Modal -->
-            <div id="guide-modal" class="modal">
-                <div class="modal-content">
-                    <span class="close">&times;</span>
-                    <h2>🎮 Controls</h2>
-                    <div class="guide-card blue"><strong>W / S</strong> → Move paddle up/down</div>
-                    <div class="guide-card green"><strong>Arrow Keys ↑ / ↓</strong> → Alternative controls</div>
-                    <div class="guide-card red">
-                        <strong>First to 10 points wins!</strong>
-                    </div>
-                </div>
+            <!-- Row 2: Game -->
+            <div id="phaser-game"></div>
+
+            <!-- Row 3: Mobile Controls -->
+            <div id="controls-card" class="controls-row hidden">
+                <button id="up-btn" class="control-btn up"><i class="fa fa-arrow-up"></i></button>
+                <button id="down-btn" class="control-btn down"><i class="fa fa-arrow-down"></i></button>
             </div>
 
             <!-- Desktop Guide Modal -->

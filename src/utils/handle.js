@@ -29,9 +29,9 @@ const Handles = {
             Bases.stop(scene.paddleRight);
         }
     },
-    event: ({ scene, Instances, callback, once = true }) => {
+    event: ({ scene, keys, callback, once = true }) => {
         // allow both array or string with "|"
-        const events = Array.isArray(Instances) ? Instances : Instances.split("|");
+        const events = Array.isArray(keys) ? keys : keys.split("|");
 
         events.forEach((key) => {
             const isKeyboard = key.startsWith("keydown-") || key.startsWith("keyup-");
@@ -44,7 +44,7 @@ const Handles = {
             }
         });
     },
-    button: ({ scene, x, y, key, isVisible = true, scale = 0.1, alpha = 0.8, depth = 10 }) => {
+    imageButton: ({ scene, x, y, key, isVisible = true, scale = 0.1, alpha = 0.8, depth = 10 }) => {
         const button = scene.add
             .image(x, y, key)
             .setInteractive()
@@ -56,32 +56,28 @@ const Handles = {
 
         return button;
     },
-    sound: ({ scene, key, config = {} }) => {
-        const sound = scene.sound.add(key, config);
-        if (config?.loop) {
-            sound.isPlaying ? sound.stop() : sound.play();
+    playSound: (scene, key) => {
+        if (scene.sound.locked) {
+            scene.sound.once(Phaser.Sound.Events.UNLOCKED, () => scene.sound.play(key));
         } else {
+            scene.sound.play(key);
+        }
+    },
+    playIfNotPlaying: (sound) => {
+        if (sound && !sound.isPlaying) {
             sound.play();
         }
-
-        return sound;
     },
-    justOnce: ({ scene, Instances, callback }) => {
-        const events = Array.isArray(Instances) ? Instances : Instances.split("|");
-
-        events.forEach((key) => {
-            if (key.startsWith("keydown-")) {
-                const code = key.split("-")[1];
-                const keyObj = scene.input.keyboard.addKey(code);
-                scene.input.keyboard.on("keydown", (ev) => {
-                    if (ev.code === `Space` && Phaser.Input.Keyboard.JustDown(keyObj)) {
-                        callback(ev);
-                    }
-                });
-            } else if (key === "pointerdown") {
-                scene.input.once("pointerdown", callback);
-            }
-        });
+    stopIfPlaying: (sound) => {
+        if (sound && sound.isPlaying) {
+            sound.stop();
+        }
+    },
+    hide: ({ id = "", element = null }) => {
+        return element ? element.classList.add("hidden") : Bases.getById(id).classList.add("hidden");
+    },
+    show: ({ id = "", element = null }) => {
+        return element ? element.classList.remove("hidden") : Bases.getById(id).classList.remove("hidden");
     },
 };
 

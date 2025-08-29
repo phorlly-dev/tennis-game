@@ -18,6 +18,18 @@ const Instances = {
         start: "game-start",
         over: "game-over",
     },
+    control: {
+        up: "up-btn",
+        down: "down-btn",
+        play: "play-btn",
+        pause: "pause-btn",
+        desktop: "desktop-btn",
+        mobile: "mobile-btn",
+        on: "on-btn",
+        off: "off-btn",
+        card: "controls-card",
+        ui: "ui",
+    },
     image: {
         key: {
             bg: "background",
@@ -39,11 +51,13 @@ const Instances = {
             pongBeep: "pong-beep",
             pongPlop: "pong-plop",
             splash: "splash",
+            playing: "playing",
         },
         value: {
             pongBeep: "assets/audios/pong_beep.ogg",
             pongPlop: "assets/audios/pong_plop.ogg",
             splash: "assets/audios/splash.ogg",
+            playing: "assets/audios/playing.mp3",
         },
     },
 };

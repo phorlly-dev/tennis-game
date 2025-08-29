@@ -1,8 +1,6 @@
 import Bases from ".";
 import Instances from "../consts";
-import Fonts from "../consts/font";
 import Handles from "./handle";
-import Payloads from "./playload";
 
 const Objects = {
     paddle: (scene, x, y, key) => {
@@ -37,48 +35,7 @@ const Objects = {
 
         return ball;
     },
-    buttons: (scene, isMobile) => {
-        scene.upBtn = Bases.getBy(".up");
-        scene.downBtn = Bases.getBy(".down");
-        scene.playBtn = Bases.getBy(".play");
-        scene.pauseBtn = Bases.getBy(".pause");
-
-        scene.isDown = false;
-        scene.isUp = false;
-
-        scene.upBtn.addEventListener("pointerdown", () => (scene.isUp = true));
-        scene.upBtn.addEventListener("pointerup", () => (scene.isUp = false));
-        scene.upBtn.addEventListener("pointerout", () => (scene.isUp = false));
-
-        scene.downBtn.addEventListener("pointerdown", () => (scene.isDown = true));
-        scene.downBtn.addEventListener("pointerup", () => (scene.isDown = false));
-        scene.downBtn.addEventListener("pointerout", () => (scene.isDown = false));
-
-        scene.pauseBtn.addEventListener("pointerdown", () => Payloads.togglePauseOrRestart(scene));
-        scene.playBtn.addEventListener("pointerdown", () => Payloads.togglePauseOrRestart(scene));
-    },
     ui: (scene) => {
-        const scoreStyle = {
-            fontSize: "32px",
-            fill: "#ecf0f1",
-            fontFamily: Fonts.pressStart2P,
-        };
-
-        scene.leftScoreText = Bases.text({
-            scene: scene,
-            x: Instances.game.width / 4,
-            y: 50,
-            title: `Player: ${scene.leftScore}`,
-            style: scoreStyle,
-        });
-        scene.rightScoreText = Bases.text({
-            scene: scene,
-            x: (3 * Instances.game.width) / 4,
-            y: 50,
-            title: `AI: ${scene.rightScore}`,
-            style: scoreStyle,
-        });
-
         // Game over text (hidden initially)
         scene.gameOverText = Bases.text({
             scene: scene,
@@ -103,18 +60,21 @@ const Objects = {
             scene: scene,
             x: Instances.game.width / 2,
             y: Instances.game.height / 2,
-            title: "PAUSED\n\n\nClick ▶ to continue",
+            title: "PAUSED\n\nClick ▶ to continue",
             style: { fontSize: "36px", fill: "#f39c12" },
             isVisible: false,
         });
-
-        scene.iconPlay = Handles.button({
-            scene: scene,
-            x: Instances.game.width / 2,
-            y: Instances.game.height / 2,
-            key: Instances.image.key.play,
-            isVisible: false,
+    },
+    bindButtons: ({ scene, elements, keys }) => {
+        elements.forEach((el, i) => {
+            const key = keys[i]; // match button to key by index
+            ["pointerdown", "pointerup", "pointerout"].forEach((ev) => {
+                el.addEventListener(ev, () => (scene[key] = ev === "pointerdown"));
+            });
         });
+    },
+    bindToggleButtons: ({ scene, elements, callback }) => {
+        elements.forEach((el) => el.addEventListener("pointerdown", () => callback(scene)));
     },
 };
 
