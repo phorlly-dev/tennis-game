@@ -8,7 +8,7 @@ const Objects = {
         scene.add.existing(paddle);
         scene.physics.add.existing(paddle);
 
-        paddle.setScale(0.2, 0.4);
+        paddle.setScale(0.3, 0.6);
         paddle.body.setImmovable(true);
         paddle.body.setCollideWorldBounds(true);
 
@@ -19,7 +19,7 @@ const Objects = {
         scene.add.existing(ball);
         scene.physics.add.existing(ball);
 
-        ball.setScale(0.06);
+        ball.setScale(0.08);
         ball.body.setBounce(1, 1);
         ball.body.setCollideWorldBounds(false);
 

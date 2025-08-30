@@ -22,6 +22,10 @@ const config = {
         default: "arcade",
         arcade: { gravity: { y: 0 }, debug: false },
     },
+    render: {
+        pixelArt: false, // smooth scaling
+        antialias: true, // prevent blurry text edges
+    },
     scene: [Boot, Preloader, Menu, MyGame],
 };
 

@@ -11,63 +11,41 @@ body {
     color: #ecf0f1;
 }
 
+/* Phaser Game Canvas */
 #phaser-game canvas {
     width: 100% !important;
-    height: 100% !important;
+    height: auto !important; /* ✅ keep aspect ratio */
+    aspect-ratio: 16 / 9;
+    max-height: 90vh;
     border-radius: 17px;
     display: block;
 }
 
-/* UI Panel */
-#ui.container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 15px;
-    padding: 15px 25px;
-    border-radius: 15px;
-    background: rgba(44, 62, 80, 0.6);
-    /* semi-transparent glass */
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
-    margin-bottom: 15px;
-}
-
-/* Wrapper for both sections */
+/* ======================
+   UI Wrapper
+====================== */
 .ui-wrapper {
     display: flex;
     flex-direction: column;
-    /* stack vertically */
     align-items: center;
     gap: 15px;
     margin-top: 10px;
 }
 
-/* Main container */
-#game-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 15px;
-    max-width: 100%;
-}
-
-/* Row 1: UI row */
+/* Top UI Row */
 .ui-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: #2c3e50;
+    background: rgba(44, 62, 80, 0.9);
     padding: 12px 20px;
     border-radius: 12px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
     width: 95%;
     max-width: 650px;
+    gap: 10px;
 }
 
-/* Left (player/ai) */
 .ui-row .status {
     display: flex;
     gap: 10px;
@@ -75,22 +53,23 @@ body {
     font-weight: bold;
 }
 
-/* Right (Buttons) */
 .ui-row .actions {
     display: flex;
     gap: 10px;
 }
 
-/* player / Score styling */
-.player,
-.ai {
+.ui-row .player,
+.ui-row .ai {
     background: rgba(255, 255, 255, 0.08);
     padding: 6px 12px;
     border-radius: 8px;
-    font-size: 3rem;
+    font-weight: bold;
+    font-size: 1rem;
 }
 
-/* Row 2: Game */
+/* ======================
+   Game Area
+====================== */
 #phaser-game {
     border-radius: 15px;
     overflow: hidden;
@@ -98,61 +77,9 @@ body {
     max-width: 95%;
 }
 
-/* Row 3: Controls */
-.controls-row {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    padding: 12px 20px;
-    border-radius: 12px;
-    background: #2c3e50;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-}
-
-/* Responsive: shrink player/ai text on mobile */
-@media (max-width: 768px) {
-    .player,
-    .ai {
-        font-size: 0.85rem;
-        padding: 4px 8px;
-    }
-
-    .ui-row {
-        flex-direction: column;
-        gap: 10px;
-        text-align: center;
-    }
-}
-
-/* Desktop hides mobile controls */
-@media (min-width: 769px) {
-    .controls-row {
-        display: none; /* hide on desktop */
-    }
-}
-
-/* Mobile shows controls */
-@media (max-width: 768px) {
-    .controls-row {
-        display: flex; /* show on mobile */
-    }
-}
-
-/* Top row (player, ai, Play, Mute) */
-.ui-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: #2c3e50;
-    padding: 12px 20px;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-    width: 90%;
-    max-width: 600px;
-    gap: 10px;
-}
-
-/* Bottom row (controls) */
+/* ======================
+   Controls Row
+====================== */
 .controls-row {
     display: flex;
     justify-content: center;
@@ -165,58 +92,6 @@ body {
     width: fit-content;
 }
 
-/* Make player/ai look consistent */
-.ui-row .player,
-.ui-row .ai {
-    background: rgba(255, 255, 255, 0.08);
-    padding: 6px 12px;
-    border-radius: 8px;
-    font-weight: bold;
-    font-size: 1rem;
-}
-
-/* Specific colors */
-#desktop-btn {
-    background: #8e44ad;
-}
-
-/* purple */
-#mobile-btn {
-    background: #9b59b6;
-}
-
-/* purple slightly different */
-
-#play-btn {
-    background: #f39c12;
-}
-
-/* orange */
-#pause-btn {
-    background: #e74c3c;
-}
-
-/* red */
-
-#on-btn {
-    background: #27ae60;
-}
-
-/* green */
-#off-btn {
-    background: #c0392b;
-}
-
-/* muted red */
-
-/* Smooth show/hide */
-.hidden {
-    display: none !important;
-}
-
-/* =======================
-   GAME CONTROLS
-======================= */
 #controls-card {
     background: #2c3e50;
     padding: 15px;
@@ -229,44 +104,100 @@ body {
     margin-top: 15px;
 }
 
+/* Restore Up / Down buttons */
 .control-btn.up {
-    background: #3498db;
-    /* blue */
+    background: #3498db; /* blue */
 }
 
 .control-btn.down {
-    background: #2ecc71;
-    /* green */
+    background: #2ecc71; /* green */
 }
 
+/* Other Buttons */
 .control-btn.play {
     background: #f39c12;
-    /* orange */
 }
-
 .control-btn.pause {
     background: #e74c3c;
-    /* red */
 }
-
 .control-btn.guide {
     background: #9b59b6;
-    /* purple */
 }
 
-/* Volume button distinct style */
 .control-btn.volume {
     background: #1abc9c;
-    /* teal for unmuted */
     transition: all 0.3s ease;
 }
-
 .control-btn.volume.muted {
     background: #c0392b;
-    /* darker red for muted */
 }
 
-/* Modal */
+/* Base Button Style */
+.control-btn {
+    width: 60px;
+    height: 60px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1.2rem;
+    color: #fff;
+    font-weight: bold;
+}
+
+/* Hover / Active */
+.control-btn:hover {
+    transform: translateY(-2px);
+}
+.control-btn:active {
+    transform: translateY(0);
+}
+
+/* ======================
+   Responsive
+====================== */
+@media (max-width: 768px) {
+    .player,
+    .ai {
+        font-size: 0.85rem;
+        padding: 4px 8px;
+    }
+
+    .ui-row {
+        flex-direction: column;
+        gap: 8px;
+        padding: 8px 12px;
+    }
+
+    .controls-row {
+        display: flex; /* ✅ show on mobile */
+    }
+
+    .control-btn {
+        width: 45px; /* smaller */
+        height: 45px;
+        font-size: 1rem;
+    }
+
+    .ui-row .status {
+        font-size: 0.9rem;
+    }
+}
+
+@media (min-width: 769px) {
+    .controls-row {
+        display: none; /* ✅ hide on desktop */
+    }
+}
+
+/* Hidden */
+.hidden {
+    display: none !important;
+}
+
+/* =======================
+   MODAL STYLING
+======================= */
 .modal {
     display: none;
     position: fixed;
@@ -286,6 +217,7 @@ body {
     width: 80%;
     max-width: 400px;
     color: white;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
 }
 
 .close {
@@ -294,75 +226,12 @@ body {
     cursor: pointer;
 }
 
-.guide-card {
-    padding: 10px;
-    margin: 10px 0;
-    border-radius: 6px;
-    font-size: 16px;
-}
-
-.guide-card.blue {
-    background: #3498db;
-}
-
-.guide-card.green {
-    background: #2ecc71;
-}
-
-.guide-card.red {
-    background: #e74c3c;
-}
-
-.control-btn {
-    width: 60px;
-    height: 60px;
-    background: linear-gradient(145deg, #f0f0f0, #d0d0d0);
-    border: none;
-    border-radius: 12px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: inset 2px 2px 5px rgba(255, 255, 255, 0.7), inset -2px -2px 5px rgba(0, 0, 0, 0.3),
-        3px 3px 8px rgba(0, 0, 0, 0.2);
-    font-size: 1.2rem;
-    color: #333;
-    font-weight: bold;
-}
-
-.control-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: inset 2px 2px 5px rgba(255, 255, 255, 0.8), inset -2px -2px 5px rgba(0, 0, 0, 0.4),
-        5px 5px 15px rgba(0, 0, 0, 0.3);
-}
-
-.control-btn:active {
-    transform: translateY(0);
-    box-shadow: inset 3px 3px 8px rgba(0, 0, 0, 0.3), inset -1px -1px 3px rgba(255, 255, 255, 0.5),
-        1px 1px 3px rgba(0, 0, 0, 0.1);
-}
-
 .controls-title {
     color: #4a90e2;
     font-size: 1.5rem;
     margin-bottom: 20px;
     text-align: center;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-}
-
-/* Mobile Guide */
-.mobile-guide {
-    margin-top: 30px;
-    background: rgba(0, 0, 0, 0.3);
-    border-radius: 12px;
-    padding: 25px;
-    border: 2px solid rgba(255, 255, 255, 0.1);
-}
-
-.mobile-title {
-    color: #ff6b6b;
-    font-size: 1.3rem;
-    margin-bottom: 20px;
-    text-align: center;
-    font-weight: bold;
 }
 
 .control-item {
@@ -406,39 +275,6 @@ body {
     margin-top: 3px;
 }
 
-/* Touch Controls */
-.touch-controls {
-    margin-top: 25px;
-    padding: 20px;
-    background: rgba(255, 193, 7, 0.1);
-    border-radius: 10px;
-    border: 2px solid rgba(255, 193, 7, 0.3);
-}
-
-.touch-title {
-    color: #ffc107;
-    font-size: 1.2rem;
-    margin-bottom: 15px;
-    text-align: center;
-    font-weight: bold;
-}
-
-.touch-item {
-    display: flex;
-    align-items: center;
-    margin-bottom: 12px;
-    padding: 10px;
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 6px;
-}
-
-.touch-icon {
-    font-size: 1.5rem;
-    margin-right: 12px;
-    width: 30px;
-    text-align: center;
-}
-
 .game-info {
     text-align: center;
     margin-top: 25px;
@@ -452,19 +288,4 @@ body {
     color: #ff6b6b;
     font-size: 1rem;
     font-weight: bold;
-}
-
-.rotate-icon {
-    font-size: 2rem;
-    color: #ffc107;
-    animation: rotate 2s linear infinite;
-}
-
-.speed-icon {
-    font-size: 1.5rem;
-    color: #ffc107;
-}
-
-.speed-icon.fast {
-    transform: rotate(45deg);
 }
