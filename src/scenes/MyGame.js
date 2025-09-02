@@ -11,9 +11,9 @@ class MyGame extends Phaser.Scene {
     }
 
     init() {
-        this.gameState = Instances.game.running;
         this.leftScore = 0;
         this.rightScore = 0;
+        this.gameState = Instances.game.running;
         this.ballSpeed = Instances.game.ballSpeed;
         Handles.show({ id: Instances.control.ui });
     }
@@ -27,8 +27,6 @@ class MyGame extends Phaser.Scene {
             Instances.game.height,
             0x1a252f
         );
-        Controls.toggleMute(this);
-        this.sound.play(Instances.audio.key.playing, { loop: true, volume: 0.5 });
 
         // Create center line
         for (let i = 0; i < Instances.game.height; i += 30) {
@@ -55,11 +53,13 @@ class MyGame extends Phaser.Scene {
         // Display text
         Objects.ui(this);
         Controls.buttons(this);
+        Controls.toggleMute(this);
         const isMobile = this.sys.game.device.input.touch;
         Controls.toggleControls(isMobile);
 
         // Delayed ball reset
         this.time.delayedCall(1500, () => Payloads.resetBall(this), [], this);
+        this.sound.play(Instances.audio.key.playing, { loop: true, volume: 0.5 });
     }
 
     update() {

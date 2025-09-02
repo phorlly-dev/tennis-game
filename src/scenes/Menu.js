@@ -10,11 +10,16 @@ class Menu extends Phaser.Scene {
         super(Instances.scene.menu);
     }
 
-    create() {
+    init() {
         Handles.hide({ id: Instances.control.ui });
-        this.add.image(Instances.game.width / 2, Instances.game.height / 2, Instances.image.key.bg).alpha = 0.7;
+    }
 
-        Bases.text({
+    create() {
+        const bg = this.add
+            .image(Instances.game.width / 2, Instances.game.height / 2, Instances.image.key.bg)
+            .setAlpha(0.7);
+
+        const title = Bases.text({
             scene: this,
             x: Instances.game.width / 2,
             y: Instances.game.height / 2 - 50,
@@ -32,7 +37,6 @@ class Menu extends Phaser.Scene {
             title: "",
             style: {
                 fontFamily: Fonts.pressStart2P,
-                color: Colors.blue,
             },
         });
 
@@ -40,6 +44,9 @@ class Menu extends Phaser.Scene {
             scene: this,
             keys: ["keydown-SPACE", "pointerdown"],
             callback: () => {
+                bg.destroy();
+                title.destroy();
+                this.label.destroy();
                 this.scene.start(Instances.scene.start);
                 Handles.playSound(this, Instances.audio.key.pongBeep);
             },

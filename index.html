@@ -1,138 +1,157 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <link rel="icon" type="image/png" href="/favicon.png" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="stylesheet" href="/style.css" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
-        <title>Tennis Game</title>
-    </head>
 
-    <body>
-        <div id="game-container" class="ui-wrapper container">
-            <!-- Row 1: UI -->
-            <div id="ui" class="ui-row hidden">
-                <div class="status">
-                    <div class="player">💯 Player: <span id="player">0</span></div>
-                    —
-                    <div class="ai">💯 AI: <span id="bot">0</span></div>
-                </div>
+<head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Tennis Game</title>
+</head>
 
-                <div class="actions">
-                    <button id="desktop-btn" class="control-btn guide">💻</button>
-                    <button id="mobile-btn" class="control-btn guide hidden">📱</button>
-
-                    <button id="pause-btn" class="control-btn pause"><i class="fa fa-pause"></i></button>
-                    <button id="play-btn" class="control-btn play hidden"><i class="fa fa-play"></i></button>
-
-                    <button id="on-btn" class="control-btn volume"><i class="fa fa-volume-up"></i></button>
-                    <button id="off-btn" class="control-btn volume muted hidden"><i class="fa fa-volume-mute"></i></button>
-                </div>
+<body>
+    <div id="game-container" class="ui-wrapper container">
+        <!-- Row 1: UI -->
+        <div id="ui" class="ui-row hidden">
+            <div class="status">
+                <div class="player">💯 Player: <span id="player">0</span></div>
+                —
+                <div class="ai">💯 AI: <span id="bot">0</span></div>
             </div>
 
-            <!-- Row 2: Game -->
-            <div id="phaser-game"></div>
+            <div class="actions">
+                <button id="desktop-btn" class="control-btn guide">
+                    <i class="fa fa-desktop" aria-hidden="true" aria-hidden="true"></i>
+                </button>
+                <button id="mobile-btn" class="control-btn guide">
+                    <i class="fa fa-mobile-phone" aria-hidden="true" style="font-size: 24px" aria-hidden="true"></i>
+                </button>
 
-            <!-- Row 3: Mobile Controls -->
-            <div id="controls-card" class="controls-row hidden">
-                <button id="up-btn" class="control-btn up"><i class="fa fa-arrow-up"></i></button>
-                <button id="down-btn" class="control-btn down"><i class="fa fa-arrow-down"></i></button>
+                <button id="pause-btn" class="control-btn pause">
+                    <i class="fa fa-pause" aria-hidden="true"></i>
+                </button>
+                <button id="play-btn" class="control-btn play hidden">
+                    <i class="fa fa-play" aria-hidden="true"></i>
+                </button>
+
+                <button id="on-btn" class="control-btn volume">
+                    <i class="fa fa-volume-up" aria-hidden="true"></i>
+                </button>
+                <button id="off-btn" class="control-btn volume muted hidden">
+                    <i class="fa fa-volume-mute" aria-hidden="true"></i>
+                </button>
             </div>
+        </div>
 
-            <!-- Desktop Guide Modal -->
-            <div id="modal-desktop" class="modal">
-                <div class="modal-content">
-                    <span class="close">&times;</span>
-                    <h3 class="controls-title">▶ Desktop Controls</h3>
+        <!-- Row 2: Game -->
+        <div id="phaser-game"></div>
 
-                    <div class="control-item">
-                        <div class="control-icon">W/S</div>
-                        <div class="control-text">
-                            <div class="control-key">⇧ W / S ⇩</div>
-                            <div class="control-desc">Move your paddle up/down</div>
-                        </div>
-                    </div>
+        <!-- Row 3: Mobile Controls -->
+        <div id="controls-card" class="controls-row hidden">
+            <button id="up-btn" class="control-btn up">
+                <i class="fa fa-arrow-up" aria-hidden="true"></i>
+            </button>
+            <button id="down-btn" class="control-btn down">
+                <i class="fa fa-arrow-down" aria-hidden="true"></i>
+            </button>
+        </div>
 
-                    <div class="control-item">
-                        <div class="control-icon">↑↓</div>
-                        <div class="control-text">
-                            <div class="control-key">⇧ Arrow Keys ↑ ↓ ⇩</div>
-                            <div class="control-desc">Alternative controls</div>
-                        </div>
-                    </div>
+        <!-- Desktop Guide Modal -->
+        <div id="modal-desktop" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h3 class="controls-title">▶ Desktop Controls</h3>
 
-                    <div class="game-info">
-                        <div class="game-info-text">🏆 First to 10 points wins!</div>
+                <div class="control-item">
+                    <div class="control-icon">W/S</div>
+                    <div class="control-text">
+                        <div class="control-key">⇧ W / S ⇩</div>
+                        <div class="control-desc">Move your paddle up/down</div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Mobile Guide Modal -->
-            <div id="modal-mobile" class="modal">
-                <div class="modal-content">
-                    <span class="close">&times;</span>
-                    <h3 class="controls-title">📱 Mobile Touch Controls</h3>
-
-                    <div class="control-item">
-                        <div class="control-icon">📱</div>
-                        <div class="control-text">
-                            <div class="control-key">Touch the buttons above to play</div>
-                            <div class="control-desc">Tap and hold for continuous movement</div>
-                        </div>
+                <div class="control-item">
+                    <div class="control-icon">↑↓</div>
+                    <div class="control-text">
+                        <div class="control-key">⇧ Arrow Keys ↑ ↓ ⇩</div>
+                        <div class="control-desc">Alternative controls</div>
                     </div>
+                </div>
 
-                    <div class="control-item">
-                        <div class="control-icon">⇧</div>
-                        <div class="control-text">
-                            <div class="control-key">Tap First Button (W) or Third Button (↑)</div>
-                            <div class="control-desc">Move your paddle UP</div>
-                        </div>
-                    </div>
-
-                    <div class="control-item">
-                        <div class="control-icon">⇩</div>
-                        <div class="control-text">
-                            <div class="control-key">Tap Second Button (S) or Fourth Button (↓)</div>
-                            <div class="control-desc">Move your paddle DOWN</div>
-                        </div>
-                    </div>
-
-                    <div class="touch-controls">
-                        <h4 class="touch-title">👆 Mobile Gaming Tips</h4>
-
-                        <div class="touch-item">
-                            <div class="touch-icon">👆</div>
-                            <div class="control-text">
-                                <div class="control-key">Quick Tap</div>
-                                <div class="control-desc">Small paddle movements</div>
-                            </div>
-                        </div>
-
-                        <div class="touch-item">
-                            <div class="touch-icon">👇</div>
-                            <div class="control-text">
-                                <div class="control-key">Tap & Hold</div>
-                                <div class="control-desc">Continuous paddle movement</div>
-                            </div>
-                        </div>
-
-                        <div class="touch-item">
-                            <div class="touch-icon">📐</div>
-                            <div class="control-text">
-                                <div class="control-key">Landscape Mode</div>
-                                <div class="control-desc">Rotate phone sideways</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="game-info">
-                        <div class="game-info-text">🏆 First to 10 points wins! Touch to play!</div>
-                    </div>
+                <div class="game-info">
+                    <div class="game-info-text">🏆 First to 10 points wins!</div>
                 </div>
             </div>
         </div>
-        <script type="module" src="src/main.js"></script>
-        <script type="module" src="/controls.js"></script>
-    </body>
+
+        <!-- Mobile Guide Modal -->
+        <div id="modal-mobile" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h3 class="controls-title">📱 Mobile Touch Controls</h3>
+
+                <div class="control-item">
+                    <div class="control-icon">📱</div>
+                    <div class="control-text">
+                        <div class="control-key">Touch the buttons above to play</div>
+                        <div class="control-desc">Tap and hold for continuous movement</div>
+                    </div>
+                </div>
+
+                <div class="control-item">
+                    <div class="control-icon">⇧</div>
+                    <div class="control-text">
+                        <div class="control-key">Tap First Button (W) or Third Button (↑)</div>
+                        <div class="control-desc">Move your paddle UP</div>
+                    </div>
+                </div>
+
+                <div class="control-item">
+                    <div class="control-icon">⇩</div>
+                    <div class="control-text">
+                        <div class="control-key">Tap Second Button (S) or Fourth Button (↓)</div>
+                        <div class="control-desc">Move your paddle DOWN</div>
+                    </div>
+                </div>
+
+                <div class="touch-controls">
+                    <h4 class="touch-title">👆 Mobile Gaming Tips</h4>
+
+                    <div class="touch-item">
+                        <div class="touch-icon">👆</div>
+                        <div class="control-text">
+                            <div class="control-key">Quick Tap</div>
+                            <div class="control-desc">Small paddle movements</div>
+                        </div>
+                    </div>
+
+                    <div class="touch-item">
+                        <div class="touch-icon">👇</div>
+                        <div class="control-text">
+                            <div class="control-key">Tap & Hold</div>
+                            <div class="control-desc">Continuous paddle movement</div>
+                        </div>
+                    </div>
+
+                    <div class="touch-item">
+                        <div class="touch-icon">📐</div>
+                        <div class="control-text">
+                            <div class="control-key">Landscape Mode</div>
+                            <div class="control-desc">Rotate phone sideways</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="game-info">
+                    <div class="game-info-text">🏆 First to 10 points wins! Touch to play!</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="module" src="src/main.js"></script>
+    <script type="text/javascript" src="/controls.js"></script>
+</body>
+
 </html>

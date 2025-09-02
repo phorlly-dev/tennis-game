@@ -5,7 +5,7 @@ import Objects from "./object";
 import Payloads from "./playload";
 
 const Controls = {
-    buttons: (scene) => {
+    buttons(scene) {
         scene.upBtn = Bases.getById(Instances.control.up);
         scene.downBtn = Bases.getById(Instances.control.down);
         scene.playBtn = Bases.getById(Instances.control.play);
@@ -24,7 +24,7 @@ const Controls = {
             callback: Payloads.togglePauseOrRestart,
         });
     },
-    toggleMute: (scene) => {
+    toggleMute(scene) {
         // In your scene create/init
         const onBtn = Bases.getById(Instances.control.on);
         const offBtn = Bases.getById(Instances.control.off);
@@ -44,12 +44,12 @@ const Controls = {
             Handles.hide({ element: offBtn });
         });
     },
-    toggleControls: (isMobile) => {
+    toggleControls(isMobile) {
         const controls = Bases.getById(Instances.control.card);
         if (isMobile) {
-            Handles.show({ element: controls });
+            return Handles.show({ element: controls });
         } else {
-            Handles.hide({ element: controls });
+            return Handles.hide({ element: controls });
         }
     },
 };

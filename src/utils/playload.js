@@ -3,7 +3,7 @@ import Instances from "../consts";
 import Handles from "./handle";
 
 const Payloads = {
-    showGameOver: (scene, message, color) => {
+    showGameOver(scene, message, color) {
         scene.ball.body.setVelocity(0, 0);
         scene.paddleLeft.body.setVelocity(0, 0);
         scene.paddleRight.body.setVelocity(0, 0);
@@ -18,7 +18,7 @@ const Payloads = {
     },
     setBotScore: (score) => (Bases.getById("bot").textContent = score),
     setPlayerScore: (score) => (Bases.getById("player").textContent = score),
-    resetBall: (scene) => {
+    resetBall(scene) {
         // Reset position to center
         scene.ball.setPosition(Instances.game.width / 2, Instances.game.height / 2);
 
@@ -29,13 +29,16 @@ const Payloads = {
         const angle = (Phaser.Math.Between(-30, 30) * Math.PI) / 180;
         const direction = Math.random() > 0.5 ? 1 : -1;
 
-        scene.ball.body.setVelocity(direction * scene.ballSpeed * Math.cos(angle), scene.ballSpeed * Math.sin(angle));
+        return scene.ball.body.setVelocity(
+            direction * scene.ballSpeed * Math.cos(angle),
+            scene.ballSpeed * Math.sin(angle)
+        );
     },
-    togglePauseOrRestart: (scene) => {
+    togglePauseOrRestart(scene) {
         if (scene.gameState === Instances.game.running) {
             Handles.hide({ element: scene.pauseBtn });
             Handles.show({ element: scene.playBtn });
-            Bases.pauseGame(scene);
+            return Bases.pauseGame(scene);
         } else if (scene.gameState === Instances.game.paused) {
             Handles.show({ element: scene.pauseBtn });
             Handles.hide({ element: scene.playBtn });
@@ -43,7 +46,7 @@ const Payloads = {
         } else if (scene.gameState === Instances.game.youWin || scene.gameState === Instances.game.botWin) {
             Handles.show({ element: scene.pauseBtn });
             Handles.hide({ element: scene.playBtn });
-            Bases.restartGame(scene);
+            return Bases.restartGame(scene);
         }
     },
 };

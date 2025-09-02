@@ -57,10 +57,10 @@ class Preloader extends Phaser.Scene {
             const fonts = new MyWebFont(this.load, ["Press Start 2P"]);
             this.load.addFile(fonts);
 
+            this.load.setPath("assets");
             this.load.image(Instances.image.key.left, Instances.image.value.left);
             this.load.image(Instances.image.key.right, Instances.image.value.right);
             this.load.image(Instances.image.key.ball, Instances.image.value.ball);
-            this.load.image(Instances.image.key.play, Instances.image.value.play);
 
             this.load.audio(Instances.audio.key.pongBeep, Instances.audio.value.pongBeep);
             this.load.audio(Instances.audio.key.pongPlop, Instances.audio.value.pongPlop);
@@ -72,9 +72,14 @@ class Preloader extends Phaser.Scene {
     }
 
     create() {
-        this.time.delayedCall(this.speed, () => {
-            this.scene.start(Instances.scene.menu);
+        // When complete → ensure progress bar finishes
+        this.load.once("complete", () => {
+            this.time.delayedCall(this.speed, () => {
+                this.scene.start(Instances.scene.menu);
+            });
         });
+
+        this.load.start();
     }
 }
 

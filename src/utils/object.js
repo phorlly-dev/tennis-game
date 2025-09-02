@@ -1,25 +1,24 @@
 import Bases from ".";
 import Instances from "../consts";
-import Handles from "./handle";
 
 const Objects = {
-    paddle: (scene, x, y, key) => {
+    paddle(scene, x, y, key) {
         const paddle = scene.add.sprite(x, y, key);
         scene.add.existing(paddle);
         scene.physics.add.existing(paddle);
 
-        paddle.setScale(0.3, 0.6);
+        paddle.setScale(0.25, 0.5);
         paddle.body.setImmovable(true);
         paddle.body.setCollideWorldBounds(true);
 
         return paddle;
     },
-    ball: (scene, x, y, key) => {
+    ball(scene, x, y, key) {
         const ball = scene.add.sprite(x, y, key);
         scene.add.existing(ball);
         scene.physics.add.existing(ball);
 
-        ball.setScale(0.08);
+        ball.setScale(0.07);
         ball.body.setBounce(1, 1);
         ball.body.setCollideWorldBounds(false);
 
@@ -35,7 +34,7 @@ const Objects = {
 
         return ball;
     },
-    ui: (scene) => {
+    ui(scene) {
         // Game over text (hidden initially)
         scene.gameOverText = Bases.text({
             scene: scene,
@@ -64,17 +63,23 @@ const Objects = {
             style: { fontSize: "36px", fill: "#f39c12" },
             isVisible: false,
         });
+
+        return {
+            gameOverText: scene.gameOverText,
+            restartText: scene.restartText,
+            pauseText: scene.pauseText,
+        };
     },
-    bindButtons: ({ scene, elements, keys }) => {
-        elements.forEach((el, i) => {
+    bindButtons({ scene, elements, keys }) {
+        return elements.forEach((el, i) => {
             const key = keys[i]; // match button to key by index
             ["pointerdown", "pointerup", "pointerout"].forEach((ev) => {
                 el.addEventListener(ev, () => (scene[key] = ev === "pointerdown"));
             });
         });
     },
-    bindToggleButtons: ({ scene, elements, callback }) => {
-        elements.forEach((el) => el.addEventListener("pointerdown", () => callback(scene)));
+    bindToggleButtons({ scene, elements, callback }) {
+        return elements.forEach((el) => el.addEventListener("pointerdown", () => callback(scene)));
     },
 };
 

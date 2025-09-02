@@ -3,7 +3,7 @@ import Instances from "../consts";
 import Payloads from "./playload";
 
 const States = {
-    hit: (scene, ball, paddle) => {
+    hit(scene, ball, paddle) {
         const hitPosition = (ball.y - paddle.y) / (paddle.height / 2);
         const bounceAngle = (hitPosition * Math.PI) / 4; // Max 45 degrees
 
@@ -20,21 +20,21 @@ const States = {
         );
 
         // Visual feedback
-        Bases.flashEffect(scene);
+        return Bases.flashEffect(scene);
     },
-    ball: (scene) => {
+    ball(scene) {
         // Manual top/bottom bouncing since we disabled world bounds collision
         if (scene.ball.y <= 12) {
             scene.ball.y = 12;
             scene.ball.body.velocity.y = Math.abs(scene.ball.body.velocity.y);
-            Bases.flashEffect(scene);
+            return Bases.flashEffect(scene);
         } else if (scene.ball.y >= Instances.game.height - 12) {
             scene.ball.y = Instances.game.height - 12;
             scene.ball.body.velocity.y = -Math.abs(scene.ball.body.velocity.y);
-            Bases.flashEffect(scene);
+            return Bases.flashEffect(scene);
         }
     },
-    score: (scene) => {
+    score(scene) {
         // FIXED: Use screen boundaries for scoring, not paddle positions
         if (scene.ball.x < -20) {
             // Ball went past left side - AI scores

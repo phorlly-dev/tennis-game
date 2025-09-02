@@ -2,35 +2,34 @@ import Instances from "../consts";
 import Fonts from "../consts/font";
 import Handles from "./handle";
 import Payloads from "./playload";
-import States from "./state";
 
 const Bases = {
-    flashEffect: (scene) => {
+    flashEffect(scene) {
         scene.cameras.main.flash(100, 255, 255, 255, false);
-        Handles.playSound(scene, Instances.audio.key.splash);
+        return Handles.playSound(scene, Instances.audio.key.splash);
     },
-    checkGameEnd: (scene) => {
+    checkGameEnd(scene) {
         if (scene.leftScore >= Instances.game.maxScore) {
             scene.gameState = Instances.game.youWin;
-            Payloads.showGameOver(scene, "YOU WIN!", "#27ae60");
+            return Payloads.showGameOver(scene, "YOU WIN!", "#27ae60");
         } else if (scene.rightScore >= Instances.game.maxScore) {
             scene.gameState = Instances.game.botWin;
-            Payloads.showGameOver(scene, "AI WINS!", "#e74c3c");
+            return Payloads.showGameOver(scene, "AI WINS!", "#e74c3c");
         }
     },
-    pauseGame: (scene) => {
+    pauseGame(scene) {
         scene.gameState = Instances.game.paused;
         scene.physics.pause();
         scene.pauseText.setVisible(true);
-        Handles.playSound(scene, Instances.audio.key.pongBeep);
+        return Handles.playSound(scene, Instances.audio.key.pongBeep);
     },
-    resumeGame: (scene) => {
+    resumeGame(scene) {
         scene.gameState = Instances.game.running;
         scene.physics.resume();
         scene.pauseText.setVisible(false);
-        Handles.playSound(scene, Instances.audio.key.pongPlop);
+        return Handles.playSound(scene, Instances.audio.key.pongPlop);
     },
-    restartGame: (scene) => {
+    restartGame(scene) {
         // Reset scores
         scene.leftScore = 0;
         scene.rightScore = 0;
@@ -52,9 +51,9 @@ const Bases = {
         // Resume physics and reset ball
         scene.physics.resume();
         Payloads.resetBall(scene);
-        Handles.playSound(scene, Instances.audio.key.pongBeep);
+        return Handles.playSound(scene, Instances.audio.key.pongBeep);
     },
-    text: ({ scene, x, y, title, style = {}, isVisible = true }) => {
+    text({ scene, x, y, title, style = {}, isVisible = true }) {
         const sty = { fontFamily: Fonts.courierNew, align: "center" };
         const txt = scene.add
             .text(x, y, title, { ...sty, ...style })
