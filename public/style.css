@@ -172,11 +172,16 @@ body {
         height: 36px;
         font-size: 1rem;
     }
+
+    .controls-row {
+        display: flex; /* or block */
+    }
 }
 
-@media (min-width: 769px) {
+@media (min-width: 1025px) {
+    /* hide only for big desktops */
     .controls-row {
-        display: none; /* ✅ hide on desktop */
+        display: none;
     }
 }
 

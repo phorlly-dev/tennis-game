@@ -49,7 +49,8 @@ class MyGame extends Phaser.Scene {
         Objects.ui(this);
         Controls.buttons(this);
         Controls.toggleMute(this);
-        Controls.toggleControls(true);
+        const isTouch = "ontouchstart" in window || navigator.maxTouchPoints > 0;
+        Controls.toggleControls(isTouch);
 
         // Delayed ball reset
         this.time.delayedCall(1500, () => Payloads.resetBall(this), [], this);

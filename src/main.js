@@ -16,10 +16,5 @@ const applyDevice = () => {
 document.addEventListener("DOMContentLoaded", () => {
     StartGame("phaser-game");
     applyDevice();
-    window.addEventListener(
-        "resize",
-        Math.min(window.innerWidth, 1024),
-        Math.min(window.innerHeight, 600),
-        applyDevice
-    );
+    window.addEventListener("resize", applyDevice);
 });
