@@ -49,7 +49,7 @@ class MyGame extends Phaser.Scene {
         Objects.ui(this);
         Controls.buttons(this);
         Controls.toggleMute(this);
-        Controls.toggleControls(Bases.isMobile());
+        Controls.toggleControls(true);
 
         // Delayed ball reset
         this.time.delayedCall(1500, () => Payloads.resetBall(this), [], this);
