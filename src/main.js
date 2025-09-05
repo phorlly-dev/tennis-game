@@ -11,6 +11,8 @@ const applyDevice = () => {
         Handles.show({ id: Instances.control.desktop });
         Handles.hide({ id: Instances.control.mobile });
     }
+
+    Math.min(window.innerWidth, 1024), Math.min(window.innerHeight, 600);
 };
 
 document.addEventListener("DOMContentLoaded", () => {

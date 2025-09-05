@@ -24,6 +24,9 @@ const config = {
         pixelArt: false, // smooth scaling
         antialias: true, // prevent blurry text edges
     },
+    plugins: {
+        global: [{ key: "Device", plugin: Phaser.Device, start: true }],
+    },
     scene: [Boot, Preloader, Menu, MyGame],
 };
 
