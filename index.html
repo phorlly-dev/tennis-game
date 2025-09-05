@@ -6,13 +6,13 @@
     <link rel="icon" type="image/png" href="/favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/style.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
     <title>Tennis Game</title>
 </head>
 
 <body>
-    <div id="game-container" class="ui-wrapper container">
+    <div class="game-container">
         <!-- Row 1: UI -->
         <div id="ui" class="ui-row hidden">
             <div class="status">
@@ -26,7 +26,7 @@
                     <i class="fa fa-desktop" aria-hidden="true" aria-hidden="true"></i>
                 </button>
                 <button id="mobile-btn" class="control-btn guide">
-                    <i class="fa fa-mobile-phone" aria-hidden="true" style="font-size: 24px" aria-hidden="true"></i>
+                    <i class="fa fa-mobile-phone" aria-hidden="true"></i>
                 </button>
 
                 <button id="pause-btn" class="control-btn pause">
@@ -46,7 +46,9 @@
         </div>
 
         <!-- Row 2: Game -->
-        <div id="phaser-game"></div>
+        <div id="phaser-wrapper">
+            <div id="phaser-game"></div>
+        </div>
 
         <!-- Row 3: Mobile Controls -->
         <div id="controls-card" class="controls-row hidden">

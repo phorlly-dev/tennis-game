@@ -29,16 +29,13 @@ const Payloads = {
         const angle = (Phaser.Math.Between(-30, 30) * Math.PI) / 180;
         const direction = Math.random() > 0.5 ? 1 : -1;
 
-        return scene.ball.body.setVelocity(
-            direction * scene.ballSpeed * Math.cos(angle),
-            scene.ballSpeed * Math.sin(angle)
-        );
+        scene.ball.body.setVelocity(direction * scene.ballSpeed * Math.cos(angle), scene.ballSpeed * Math.sin(angle));
     },
     togglePauseOrRestart(scene) {
         if (scene.gameState === Instances.game.running) {
             Handles.hide({ element: scene.pauseBtn });
             Handles.show({ element: scene.playBtn });
-            return Bases.pauseGame(scene);
+            Bases.pauseGame(scene);
         } else if (scene.gameState === Instances.game.paused) {
             Handles.show({ element: scene.pauseBtn });
             Handles.hide({ element: scene.playBtn });
@@ -46,7 +43,7 @@ const Payloads = {
         } else if (scene.gameState === Instances.game.youWin || scene.gameState === Instances.game.botWin) {
             Handles.show({ element: scene.pauseBtn });
             Handles.hide({ element: scene.playBtn });
-            return Bases.restartGame(scene);
+            Bases.restartGame(scene);
         }
     },
 };

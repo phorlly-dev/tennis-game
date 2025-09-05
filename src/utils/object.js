@@ -63,15 +63,9 @@ const Objects = {
             style: { fontSize: "36px", fill: "#f39c12" },
             isVisible: false,
         });
-
-        return {
-            gameOverText: scene.gameOverText,
-            restartText: scene.restartText,
-            pauseText: scene.pauseText,
-        };
     },
     bindButtons({ scene, elements, keys }) {
-        return elements.forEach((el, i) => {
+        elements.forEach((el, i) => {
             const key = keys[i]; // match button to key by index
             ["pointerdown", "pointerup", "pointerout"].forEach((ev) => {
                 el.addEventListener(ev, () => (scene[key] = ev === "pointerdown"));
@@ -79,7 +73,7 @@ const Objects = {
         });
     },
     bindToggleButtons({ scene, elements, callback }) {
-        return elements.forEach((el) => el.addEventListener("pointerdown", () => callback(scene)));
+        elements.forEach((el) => el.addEventListener("pointerdown", () => callback(scene)));
     },
 };
 

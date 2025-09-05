@@ -20,13 +20,7 @@ class MyGame extends Phaser.Scene {
 
     create() {
         // // Create background
-        this.add.rectangle(
-            Instances.game.width / 2,
-            Instances.game.height / 2,
-            Instances.game.width,
-            Instances.game.height,
-            0x1a252f
-        );
+        this.add.image(Instances.game.width / 2, Instances.game.height / 2, Instances.image.key.bg).setAlpha(0.2);
 
         // Create center line
         for (let i = 0; i < Instances.game.height; i += 30) {

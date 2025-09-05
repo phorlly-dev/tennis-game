@@ -1,8 +1,6 @@
 import Instances from "../consts";
-import Colors from "../consts/color";
 import Fonts from "../consts/font";
 import Bases from "../utils";
-import Controls from "../utils/control";
 import Handles from "../utils/handle";
 
 class Menu extends Phaser.Scene {
@@ -10,14 +8,10 @@ class Menu extends Phaser.Scene {
         super(Instances.scene.menu);
     }
 
-    init() {
-        Handles.hide({ id: Instances.control.ui });
-    }
-
     create() {
         const bg = this.add
             .image(Instances.game.width / 2, Instances.game.height / 2, Instances.image.key.bg)
-            .setAlpha(0.7);
+            .setAlpha(0.6);
 
         const title = Bases.text({
             scene: this,
@@ -37,6 +31,7 @@ class Menu extends Phaser.Scene {
             title: "",
             style: {
                 fontFamily: Fonts.pressStart2P,
+                fontSize: "24px",
             },
         });
 

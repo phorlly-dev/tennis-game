@@ -47,9 +47,9 @@ const Controls = {
     toggleControls(isMobile) {
         const controls = Bases.getById(Instances.control.card);
         if (isMobile) {
-            return Handles.show({ element: controls });
+            Handles.show({ element: controls });
         } else {
-            return Handles.hide({ element: controls });
+            Handles.hide({ element: controls });
         }
     },
 };

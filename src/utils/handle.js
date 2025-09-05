@@ -17,12 +17,12 @@ const Handles = {
 
         if (Math.abs(diff) > deadZone) {
             if (diff > 0) {
-                return Bases.moveUp(scene.paddleRight, Instances.game.botSpeed);
+                Bases.moveUp(scene.paddleRight, Instances.game.botSpeed);
             } else {
-                return Bases.moveDown(scene.paddleRight, Instances.game.botSpeed);
+                Bases.moveDown(scene.paddleRight, Instances.game.botSpeed);
             }
         } else {
-            return Bases.stop(scene.paddleRight);
+            Bases.stop(scene.paddleRight);
         }
     },
     event({ scene, keys, callback, once = true }) {
@@ -34,9 +34,9 @@ const Handles = {
             const { input } = scene;
             const { keyboard } = scene.input;
             if (isKeyboard) {
-                return once ? keyboard.once(key, callback) : keyboard.on(key, callback);
+                once ? keyboard.once(key, callback) : keyboard.on(key, callback);
             } else {
-                return once ? input.once(key, callback) : input.on(key, callback);
+                once ? input.once(key, callback) : input.on(key, callback);
             }
         });
     },
@@ -54,26 +54,26 @@ const Handles = {
     },
     playSound(scene, key) {
         if (scene.sound.locked) {
-            return scene.sound.once(Phaser.Sound.Events.UNLOCKED, () => scene.sound.play(key));
+            scene.sound.once(Phaser.Sound.Events.UNLOCKED, () => scene.sound.play(key));
         } else {
-            return scene.sound.play(key);
+            scene.sound.play(key);
         }
     },
     playIfNotPlaying(sound) {
         if (sound && !sound.isPlaying) {
-            return sound.play();
+            sound.play();
         }
     },
     stopIfPlaying(sound) {
         if (sound && sound.isPlaying) {
-            return sound.stop();
+            sound.stop();
         }
     },
     hide({ id = "", element = null }) {
-        return element ? element.classList.add("hidden") : Bases.getById(id).classList.add("hidden");
+        element ? element.classList.add("hidden") : Bases.getById(id).classList.add("hidden");
     },
     show({ id = "", element = null }) {
-        return element ? element.classList.remove("hidden") : Bases.getById(id).classList.remove("hidden");
+        element ? element.classList.remove("hidden") : Bases.getById(id).classList.remove("hidden");
     },
 };
 

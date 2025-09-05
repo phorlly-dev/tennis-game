@@ -20,18 +20,18 @@ const States = {
         );
 
         // Visual feedback
-        return Bases.flashEffect(scene);
+        Bases.flashEffect(scene);
     },
     ball(scene) {
         // Manual top/bottom bouncing since we disabled world bounds collision
         if (scene.ball.y <= 12) {
             scene.ball.y = 12;
             scene.ball.body.velocity.y = Math.abs(scene.ball.body.velocity.y);
-            return Bases.flashEffect(scene);
+            Bases.flashEffect(scene);
         } else if (scene.ball.y >= Instances.game.height - 12) {
             scene.ball.y = Instances.game.height - 12;
             scene.ball.body.velocity.y = -Math.abs(scene.ball.body.velocity.y);
-            return Bases.flashEffect(scene);
+            Bases.flashEffect(scene);
         }
     },
     score(scene) {
