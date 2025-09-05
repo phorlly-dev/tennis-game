@@ -1,7 +1,7 @@
 const Instances = {
     game: {
-        width: Math.min(window.innerWidth, 1024),
-        height: Math.min(window.innerHeight, 600),
+        width: 1024,
+        height: 600,
         maxScore: 10,
         playerSpeed: 600,
         ballSpeed: 400,
