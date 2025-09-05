@@ -4,6 +4,7 @@ import Objects from "../utils/object";
 import States from "../utils/state";
 import Payloads from "../utils/playload";
 import Controls from "../utils/control";
+import Bases from "../utils";
 
 class MyGame extends Phaser.Scene {
     constructor() {
@@ -48,8 +49,7 @@ class MyGame extends Phaser.Scene {
         Objects.ui(this);
         Controls.buttons(this);
         Controls.toggleMute(this);
-        const isMobile = this.sys.game.device.input.touch;
-        Controls.toggleControls(isMobile);
+        Controls.toggleControls(Bases.isMobile());
 
         // Delayed ball reset
         this.time.delayedCall(1500, () => Payloads.resetBall(this), [], this);
