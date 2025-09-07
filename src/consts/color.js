@@ -1,14 +1,15 @@
 const Colors = {
-    white: 0xffffff,
-    black: 0x000000,
-    red: 0xff0000,
-    green: 0x00ff00,
-    blue: 0x0000ff,
-    primary: 0xffa500,
-    secondary: 0x808080,
-    warning: 0xffc107,
-    success: 0x4caf50,
-    error: 0xf44336,
+    white: { hex: 0xffffff, css: "#ffffff" },
+    black: { hex: 0x000000, css: "#000000" },
+
+    orange: { hex: 0xe67e22, css: "#e67e22" },
+    purple: { hex: 0x9b59b6, css: "#9b59b6" },
+
+    primary: { hex: 0x9b59b6, css: "#9b59b6" },
+    secondary: { hex: 0x808080, css: "#808080" },
+    warning: { hex: 0xffc107, css: "#ffc107" },
+    success: { hex: 0xe67e22, css: "#e67e22" },
+    error: { hex: 0xf44336, css: "#f44336" },
 };
 
 export default Colors;

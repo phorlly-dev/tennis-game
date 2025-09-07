@@ -1,6 +1,8 @@
 import Bases from ".";
 import Instances from "../consts";
+import Colors from "../consts/color";
 
+const { width, height } = Instances.game;
 const Objects = {
     paddle(scene, x, y, key) {
         const paddle = scene.add.sprite(x, y, key);
@@ -38,29 +40,35 @@ const Objects = {
         // Game over text (hidden initially)
         scene.gameOverText = Bases.text({
             scene: scene,
-            x: Instances.game.width / 2,
-            y: Instances.game.height / 2,
+            x: width / 2,
+            y: height / 2,
             title: "",
             style: {
                 fontSize: "48px",
-                fill: "#ecf0f1",
             },
             isVisible: false,
         });
         scene.restartText = Bases.text({
             scene: scene,
-            x: Instances.game.width / 2,
-            y: Instances.game.height / 2 + 80,
+            x: width / 2,
+            y: height / 2 + 80,
             title: "Click ▶ to replay",
-            style: { fill: "#95a5a6" },
+            style: {
+                fill: Colors.secondary.css,
+                fontSize: "24px",
+            },
             isVisible: false,
         });
         scene.pauseText = Bases.text({
             scene: scene,
-            x: Instances.game.width / 2,
-            y: Instances.game.height / 2,
+            x: width / 2,
+            y: height / 2,
             title: "PAUSED\n\nClick ▶ to continue",
-            style: { fontSize: "36px", fill: "#f39c12" },
+            style: {
+                fontSize: "36px",
+                fill: Colors.orange.css,
+                textAlign: "center",
+            },
             isVisible: false,
         });
     },

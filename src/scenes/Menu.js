@@ -3,20 +3,20 @@ import Fonts from "../consts/font";
 import Bases from "../utils";
 import Handles from "../utils/handle";
 
+const { menu, start } = Instances.scene;
 class Menu extends Phaser.Scene {
     constructor() {
-        super(Instances.scene.menu);
+        super(menu);
     }
 
     create() {
-        const bg = this.add
-            .image(Instances.game.width / 2, Instances.game.height / 2, Instances.image.key.bg)
-            .setAlpha(0.6);
+        const { width, height } = Instances.game;
+        const bg = this.add.image(width / 2, height / 2, Instances.image.key.bg).setAlpha(0.2);
 
         const title = Bases.text({
             scene: this,
-            x: Instances.game.width / 2,
-            y: Instances.game.height / 2 - 50,
+            x: width / 2,
+            y: height / 2 - 50,
             title: "Old School Tennis",
             style: {
                 fontSize: "48px",
@@ -26,11 +26,10 @@ class Menu extends Phaser.Scene {
 
         this.label = Bases.text({
             scene: this,
-            x: Instances.game.width / 2,
-            y: Instances.game.height / 2 + 100,
+            x: width / 2,
+            y: height / 2 + 100,
             title: "",
             style: {
-                fontFamily: Fonts.pressStart2P,
                 fontSize: "24px",
             },
         });
@@ -39,10 +38,20 @@ class Menu extends Phaser.Scene {
             scene: this,
             keys: ["keydown-SPACE", "pointerdown"],
             callback: () => {
+                // ✅ unlock audio context (important for mobile)
+                if (this.sound.context.state === "suspended") {
+                    this.sound.context.resume();
+                }
+
                 bg.destroy();
                 title.destroy();
                 this.label.destroy();
-                this.scene.start(Instances.scene.start);
+
+                // stop menu and start game
+                this.scene.stop(menu);
+                this.scene.start(start);
+
+                // play start sound (now safe after tap)
                 Handles.playSound(this, Instances.audio.key.pongBeep);
             },
         });

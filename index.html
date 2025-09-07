@@ -12,12 +12,12 @@
 </head>
 
 <body>
-    <div class="game-container">
+    <div class="game-container card">
         <!-- Row 1: UI -->
-        <div id="ui" class="ui-row hidden">
+        <div id="ui" class="ui-row hidden card-header">
             <div class="status">
                 <div class="player">💯 Player: <span id="player">0</span></div>
-                —
+                <div></div>
                 <div class="ai">💯 AI: <span id="bot">0</span></div>
             </div>
 
@@ -46,12 +46,12 @@
         </div>
 
         <!-- Row 2: Game -->
-        <div id="phaser-wrapper">
+        <div class="phaser-wrapper card-content">
             <div id="phaser-game"></div>
         </div>
 
         <!-- Row 3: Mobile Controls -->
-        <div id="controls-card" class="controls-row hidden">
+        <div id="controls-card" class="controls-row hidden card-footer">
             <button id="up-btn" class="control-btn up">
                 <i class="fa fa-arrow-up" aria-hidden="true"></i>
             </button>

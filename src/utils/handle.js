@@ -1,11 +1,12 @@
 import Bases from ".";
 import Instances from "../consts";
 
+const { playerSpeed, botSpeed } = Instances.game;
 const Handles = {
     player(scene) {
         // Use physics velocity for smooth movement
-        if (scene.cursors.up.isDown || scene.isUp) Bases.moveDown(scene.paddleLeft, Instances.game.playerSpeed);
-        else if (scene.cursors.down.isDown || scene.isDown) Bases.moveUp(scene.paddleLeft, Instances.game.playerSpeed);
+        if (scene.cursors.up.isDown || scene.isUp) Bases.moveDown(scene.paddleLeft, playerSpeed);
+        else if (scene.cursors.down.isDown || scene.isDown) Bases.moveUp(scene.paddleLeft, playerSpeed);
         else Bases.stop(scene.paddleLeft);
     },
     ai(scene) {
@@ -17,9 +18,9 @@ const Handles = {
 
         if (Math.abs(diff) > deadZone) {
             if (diff > 0) {
-                Bases.moveUp(scene.paddleRight, Instances.game.botSpeed);
+                Bases.moveUp(scene.paddleRight, botSpeed);
             } else {
-                Bases.moveDown(scene.paddleRight, Instances.game.botSpeed);
+                Bases.moveDown(scene.paddleRight, botSpeed);
             }
         } else {
             Bases.stop(scene.paddleRight);

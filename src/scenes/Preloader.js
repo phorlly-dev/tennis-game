@@ -2,85 +2,97 @@ import MyWebFont from "./MyWebFont";
 import Instances from "../consts";
 import Colors from "../consts/color";
 
+const { preload, menu } = Instances.scene;
 class Preloader extends Phaser.Scene {
     constructor() {
-        super(Instances.scene.preload);
+        super(preload);
+
+        // class-level variables
+        this.fakeProgress = 0; // what we draw
+        this.targetProgress = 0; // what loader reports
+        this.startRequested = false;
     }
+
     preload() {
+        const cx = this.cameras.main.centerX;
+        const cy = this.cameras.main.centerY;
+        const W = this.scale.width;
+        const H = this.scale.height;
+
         // background
-        this.add.image(Instances.game.width / 2, Instances.game.height / 2, Instances.image.key.bg).setAlpha(0.6);
+        this.add.image(W / 2, H / 2, Instances.image.key.bg).setAlpha(0.4);
 
         // sizes
         const barWidth = 460;
         const barHeight = 28;
         const radius = 12;
-        const barX = Instances.game.width / 2 - barWidth / 2;
-        const barY = Instances.game.height / 2;
+        const x = cx - barWidth / 2;
+        const y = cy - barHeight / 2; // truly centered
 
-        // progress container (outline with rounded corners)
-        const progressBox = this.add.graphics();
-        progressBox.lineStyle(2, 0xffffff, 1);
-        progressBox.strokeRoundedRect(barX, barY, barWidth, barHeight, radius);
+        // outline
+        this.progressBox = this.add.graphics();
+        this.progressBox.lineStyle(2, 0xffffff, 1);
+        this.progressBox.strokeRoundedRect(x, y, barWidth, barHeight, radius);
 
-        // progress bar (filled rounded rect)
-        const progressBar = this.add.graphics();
-
-        // text
-        const progressText = this.add
-            .text(Instances.game.width / 2, Instances.game.height / 2 + 50, "Loading: 0%", {
+        // bar + text
+        this.progressBar = this.add.graphics();
+        this.progressText = this.add
+            .text(cx, y + barHeight + 22, "Loading: 0%", {
                 fontSize: "20px",
-                fill: Colors.primary,
+                color: Colors.white.css,
             })
             .setOrigin(0.5);
 
-        this.fakeProgress = 0;
-        this.speed = 800;
+        // smooth update
+        this.events.on("update", () => {
+            this.fakeProgress = Phaser.Math.Linear(this.fakeProgress, this.targetProgress, 0.2);
 
-        // listen for loader progress
-        this.load.on("progress", (progress) => {
-            // tweened smooth progress
-            this.tweens.add({
-                targets: this,
-                fakeProgress: progress,
-                duration: this.speed,
-                ease: "Linear",
-                onUpdate: () => {
-                    progressBar.clear();
-                    progressBar.fillStyle(Colors.success, 1);
-                    progressBar.fillRoundedRect(barX, barY, barWidth * this.fakeProgress, barHeight, radius);
-                    progressText.setText(`Loading: ${Math.round(this.fakeProgress * 100)}%`);
-                },
-            });
+            this.progressBar.clear();
+            this.progressBar.fillStyle(Colors.orange.hex, 1);
+            this.progressBar.fillRoundedRect(x, y, barWidth * this.fakeProgress, barHeight, radius);
+
+            this.progressText.setText(`Loading: ${Math.round(this.fakeProgress * 100)}%`);
+
+            if (this.startRequested && this.fakeProgress > 0.999) {
+                this.scene.start(menu);
+            }
         });
 
-        // Load assets with error handling
+        // update target from loader
+        this.load.on("progress", (p) => {
+            this.targetProgress = p;
+        });
+
+        // finished loading
+        this.load.once("complete", () => {
+            this.targetProgress = 1;
+            this.startRequested = true;
+        });
+
+        // load assets
         try {
+            const { key: imgKey, value: imgValue } = Instances.image;
+            const { key: soundKey, value: soundValue } = Instances.audio;
             const fonts = new MyWebFont(this.load, ["Press Start 2P"]);
             this.load.addFile(fonts);
 
             this.load.setPath("assets");
-            this.load.image(Instances.image.key.left, Instances.image.value.left);
-            this.load.image(Instances.image.key.right, Instances.image.value.right);
-            this.load.image(Instances.image.key.ball, Instances.image.value.ball);
+            this.load.image(imgKey.left, imgValue.left);
+            this.load.image(imgKey.right, imgValue.right);
+            this.load.image(imgKey.ball, imgValue.ball);
 
-            this.load.audio(Instances.audio.key.pongBeep, Instances.audio.value.pongBeep);
-            this.load.audio(Instances.audio.key.pongPlop, Instances.audio.value.pongPlop);
-            this.load.audio(Instances.audio.key.splash, Instances.audio.value.splash);
-            this.load.audio(Instances.audio.key.playing, Instances.audio.value.playing);
-        } catch (error) {
-            console.error("Asset loading failed:", error);
+            this.load.audio(soundKey.pongBeep, soundValue.pongBeep);
+            this.load.audio(soundKey.pongPlop, soundValue.pongPlop);
+            this.load.audio(soundKey.splash, soundValue.splash);
+            this.load.audio(soundKey.playing, soundValue.playing);
+        } catch (err) {
+            console.error("Asset loading failed:", err);
         }
     }
 
-    create() {
-        // When complete → ensure progress bar finishes
-        this.load.once("complete", () => {
-            this.time.delayedCall(this.speed, () => {
-                this.scene.start(Instances.scene.menu);
-            });
-        });
-
-        this.load.start();
+    shutdown() {
+        this.load.removeAllListeners();
+        this.events.removeListener("update");
     }
 }
 

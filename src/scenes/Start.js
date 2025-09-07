@@ -1,16 +1,17 @@
 import * as Phaser from "phaser";
 import Boot from "./Boot";
-import MyGame from "./MyGame";
+import GameEngine from "./Game";
 import Preloader from "./Preloader";
 import Menu from "./Menu";
 import Instances from "../consts";
 
 //  Find out more information about the Game Config at:
 //  https://docs.phaser.io/api-documentation/typedef/types-core#gameconfig
+const { width, height } = Instances.game;
 const config = {
     type: Phaser.AUTO,
-    width: Instances.game.width,
-    height: Instances.game.height,
+    width: width,
+    height: height,
     backgroundColor: "#1a252f",
     scale: {
         mode: Phaser.Scale.FIT,
@@ -18,13 +19,13 @@ const config = {
     },
     physics: {
         default: "arcade",
-        arcade: { gravity: { y: 0 }, debug: false },
+        arcade: { gravity: { x: 0, y: 0 }, debug: false },
     },
     render: {
-        pixelArt: false, // smooth scaling
-        antialias: true, // prevent blurry text edges
+        antialias: false,
+        pixelArt: true,
     },
-    scene: [Boot, Preloader, Menu, MyGame],
+    scene: [Boot, Preloader, Menu, GameEngine],
 };
 
 const StartGame = (parent) => {
