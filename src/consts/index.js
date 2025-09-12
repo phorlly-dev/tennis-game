@@ -2,14 +2,14 @@ const Instances = {
     game: {
         width: 1024,
         height: 600,
-        maxScore: 10,
-        playerSpeed: 600,
-        ballSpeed: 400,
-        botSpeed: 200,
+        max_score: 10,
+        player_speed: 600,
+        ball_speed: 400,
+        bot_speed: 200,
         running: "GameRunning",
         paused: "GamePaused",
-        youWin: "YouYin",
-        botWin: "BotWin",
+        you_win: "YouYin",
+        bot_win: "BotWin",
     },
     scene: {
         menu: "game-menu",
@@ -46,18 +46,22 @@ const Instances = {
     },
     audio: {
         key: {
-            pongBeep: "pong-beep",
-            pongPlop: "pong-plop",
+            pong_beep: "pong-beep",
+            pong_plop: "pong-plop",
             splash: "splash",
             playing: "playing",
         },
         value: {
-            pongBeep: "audios/pong_beep.ogg",
-            pongPlop: "audios/pong_plop.ogg",
+            pong_beep: "audios/pong_beep.ogg",
+            pong_plop: "audios/pong_plop.ogg",
             splash: "audios/splash.ogg",
             playing: "audios/playing.mp3",
         },
     },
 };
 
-export default Instances;
+export const { game, scene, control, image, audio } = Instances;
+export const { width, height, max_score, player_speed, ball_speed, bot_speed, running, paused, you_win, bot_win } =
+    game;
+export const { menu, boot, preload, start, over } = scene;
+export const { up, down, play, pause, desktop, mobile, on, off, card, ui } = control;

@@ -12,4 +12,4 @@ const Colors = {
     error: { hex: 0xf44336, css: "#f44336" },
 };
 
-export default Colors;
+export const { white, black, orange, purple, primary, secondary, warning, success, error } = Colors;

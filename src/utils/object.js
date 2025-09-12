@@ -1,10 +1,9 @@
-import Bases from ".";
-import Instances from "../consts";
-import Colors from "../consts/color";
+import { text } from ".";
+import { height, width } from "../consts";
+import { orange, secondary } from "../consts/color";
 
-const { width, height } = Instances.game;
 const Objects = {
-    paddle(scene, x, y, key) {
+    makePaddle(scene, x, y, key) {
         const paddle = scene.add.sprite(x, y, key);
         scene.add.existing(paddle);
         scene.physics.add.existing(paddle);
@@ -15,7 +14,7 @@ const Objects = {
 
         return paddle;
     },
-    ball(scene, x, y, key) {
+    makeBall(scene, x, y, key) {
         const ball = scene.add.sprite(x, y, key);
         scene.add.existing(ball);
         scene.physics.add.existing(ball);
@@ -36,9 +35,9 @@ const Objects = {
 
         return ball;
     },
-    ui(scene) {
+    makePauseText(scene) {
         // Game over text (hidden initially)
-        scene.gameOverText = Bases.text({
+        scene.gameOverText = text({
             scene: scene,
             x: width / 2,
             y: height / 2,
@@ -48,25 +47,25 @@ const Objects = {
             },
             isVisible: false,
         });
-        scene.restartText = Bases.text({
+        scene.restartText = text({
             scene: scene,
             x: width / 2,
             y: height / 2 + 80,
             title: "Click ▶ to replay",
             style: {
-                fill: Colors.secondary.css,
+                fill: secondary.css,
                 fontSize: "24px",
             },
             isVisible: false,
         });
-        scene.pauseText = Bases.text({
+        scene.pauseText = text({
             scene: scene,
             x: width / 2,
             y: height / 2,
             title: "PAUSED\n\nClick ▶ to continue",
             style: {
                 fontSize: "36px",
-                fill: Colors.orange.css,
+                fill: orange.css,
                 textAlign: "center",
             },
             isVisible: false,
@@ -85,4 +84,4 @@ const Objects = {
     },
 };
 
-export default Objects;
+export const { makePaddle, makeBall, makePauseText, bindButtons, bindToggleButtons } = Objects;

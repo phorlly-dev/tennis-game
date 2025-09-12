@@ -1,45 +1,37 @@
-import Bases from ".";
-import Instances from "../consts";
-import Handles from "./handle";
-import Objects from "./object";
-import Payloads from "./playload";
+import { getById } from ".";
+import { card, down, off, on, pause, play, up } from "../consts";
+import { hide, show } from "./handle";
+import { bindButtons, bindToggleButtons } from "./object";
+import { togglePauseOrRestart } from "./playload";
 
-const { up, down, play, pause, on, off, card } = Instances.control;
 const Controllers = {
-    buttons(scene) {
+    makeButtons(scene) {
         // clear old listeners before binding new
-        const elements = [
-            Bases.getById(up),
-            Bases.getById(down),
-            Bases.getById(play),
-            Bases.getById(pause),
-            Bases.getById(on),
-            Bases.getById(off),
-        ];
+        const elements = [getById(up), getById(down), getById(play), getById(pause), getById(on), getById(off)];
 
         elements.forEach((el) => {
             el.replaceWith(el.cloneNode(true)); // 🔑 remove old listeners
         });
 
         // Re-fetch after cloning
-        scene.upBtn = Bases.getById(up);
-        scene.downBtn = Bases.getById(down);
-        scene.playBtn = Bases.getById(play);
-        scene.pauseBtn = Bases.getById(pause);
-        scene.onBtn = Bases.getById(on);
-        scene.offBtn = Bases.getById(off);
+        scene.upBtn = getById(up);
+        scene.downBtn = getById(down);
+        scene.playBtn = getById(play);
+        scene.pauseBtn = getById(pause);
+        scene.onBtn = getById(on);
+        scene.offBtn = getById(off);
 
         // Rebind fresh listeners
-        Objects.bindButtons({
+        bindButtons({
             scene,
             elements: [scene.upBtn, scene.downBtn],
             keys: ["isUp", "isDown"],
         });
 
-        Objects.bindToggleButtons({
+        bindToggleButtons({
             scene,
             elements: [scene.pauseBtn, scene.playBtn],
-            callback: Payloads.togglePauseOrRestart,
+            callback: togglePauseOrRestart,
         });
     },
     toggleMute(scene) {
@@ -47,25 +39,25 @@ const Controllers = {
         scene.onBtn.addEventListener("pointerdown", () => {
             // Mute
             scene.sound.mute = true;
-            Handles.hide({ element: scene.onBtn });
-            Handles.show({ element: scene.offBtn });
+            hide({ element: scene.onBtn });
+            show({ element: scene.offBtn });
         });
 
         scene.offBtn.addEventListener("pointerdown", () => {
             // Unmute
             scene.sound.mute = false;
-            Handles.show({ element: scene.onBtn });
-            Handles.hide({ element: scene.offBtn });
+            show({ element: scene.onBtn });
+            hide({ element: scene.offBtn });
         });
     },
     toggleControls(isMobile) {
-        const controls = Bases.getById(card);
+        const controls = getById(card);
         if (isMobile) {
-            Handles.show({ element: controls });
+            show({ element: controls });
         } else {
-            Handles.hide({ element: controls });
+            hide({ element: controls });
         }
     },
 };
 
-export default Controllers;
+export const { makeButtons, toggleMute, toggleControls } = Controllers;

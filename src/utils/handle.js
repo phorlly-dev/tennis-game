@@ -1,15 +1,14 @@
-import Bases from ".";
-import Instances from "../consts";
+import { getById, moveDown, moveUp, stop } from ".";
+import { bot_speed, player_speed } from "../consts";
 
-const { playerSpeed, botSpeed } = Instances.game;
 const Handles = {
-    player(scene) {
+    playerMove(scene) {
         // Use physics velocity for smooth movement
-        if (scene.cursors.up.isDown || scene.isUp) Bases.moveDown(scene.paddleLeft, playerSpeed);
-        else if (scene.cursors.down.isDown || scene.isDown) Bases.moveUp(scene.paddleLeft, playerSpeed);
-        else Bases.stop(scene.paddleLeft);
+        if (scene.cursors.up.isDown || scene.isUp) moveDown(scene.paddleLeft, player_speed);
+        else if (scene.cursors.down.isDown || scene.isDown) moveUp(scene.paddleLeft, player_speed);
+        else stop(scene.paddleLeft);
     },
-    ai(scene) {
+    botMove(scene) {
         // Improved AI with smooth movement
         const ballY = scene.ball.y;
         const paddleY = scene.paddleRight.y;
@@ -18,15 +17,15 @@ const Handles = {
 
         if (Math.abs(diff) > deadZone) {
             if (diff > 0) {
-                Bases.moveUp(scene.paddleRight, botSpeed);
+                moveUp(scene.paddleRight, bot_speed);
             } else {
-                Bases.moveDown(scene.paddleRight, botSpeed);
+                moveDown(scene.paddleRight, bot_speed);
             }
         } else {
-            Bases.stop(scene.paddleRight);
+            stop(scene.paddleRight);
         }
     },
-    event({ scene, keys, callback, once = true }) {
+    onClick({ scene, keys, callback, once = true }) {
         // allow both array or string with "|"
         const events = Array.isArray(keys) ? keys : keys.split("|");
 
@@ -71,11 +70,12 @@ const Handles = {
         }
     },
     hide({ id = "", element = null }) {
-        element ? element.classList.add("hidden") : Bases.getById(id).classList.add("hidden");
+        element ? element.classList.add("hidden") : getById(id).classList.add("hidden");
     },
     show({ id = "", element = null }) {
-        element ? element.classList.remove("hidden") : Bases.getById(id).classList.remove("hidden");
+        element ? element.classList.remove("hidden") : getById(id).classList.remove("hidden");
     },
 };
 
-export default Handles;
+export const { playerMove, botMove, onClick, imageButton, playSound, playIfNotPlaying, stopIfPlaying, hide, show } =
+    Handles;

@@ -1,43 +1,41 @@
-import Instances from "../consts";
-import Colors from "../consts/color";
-import Fonts from "../consts/font";
-import Handles from "./handle";
-import Payloads from "./playload";
+import { audio, bot_win, height, max_score, paused, running, width, you_win } from "../consts";
+import { orange, purple } from "../consts/color";
+import { arial } from "../consts/font";
+import { playSound } from "./handle";
+import { resetBall, setBotScore, setPlayerScore, showGameOver } from "./playload";
 
-const { splash, pongBeep, pongPlop } = Instances.audio.key;
-const { running, maxScore, youWin, botWin, paused, width, height } = Instances.game;
 const Bases = {
     flashEffect(scene) {
         scene.cameras.main.flash(100, 255, 255, 255, false);
-        Handles.playSound(scene, splash);
+        playSound(scene, audio.key.splash);
     },
     checkGameEnd(scene) {
-        if (scene.leftScore >= maxScore) {
-            scene.gameState = youWin;
-            Payloads.showGameOver(scene, "YOU WIN!", Colors.purple.css);
-        } else if (scene.rightScore >= maxScore) {
-            scene.gameState = botWin;
-            Payloads.showGameOver(scene, "AI WINS!", Colors.orange.css);
+        if (scene.leftScore >= max_score) {
+            scene.gameState = you_win;
+            showGameOver(scene, "YOU WIN!", purple.css);
+        } else if (scene.rightScore >= max_score) {
+            scene.gameState = bot_win;
+            showGameOver(scene, "AI WINS!", orange.css);
         }
     },
     pauseGame(scene) {
         scene.gameState = paused;
         scene.physics.pause();
         scene.pauseText.setVisible(true);
-        Handles.playSound(scene, pongBeep);
+        playSound(scene, audio.key.pong_beep);
     },
     resumeGame(scene) {
         scene.gameState = running;
         scene.physics.resume();
         scene.pauseText.setVisible(false);
-        Handles.playSound(scene, pongPlop);
+        playSound(scene, audio.key.pong_plop);
     },
     restartGame(scene) {
         // Reset scores
         scene.leftScore = 0;
         scene.rightScore = 0;
-        Payloads.setPlayerScore(scene.leftScore);
-        Payloads.setBotScore(scene.rightScore);
+        setPlayerScore(scene.leftScore);
+        setBotScore(scene.rightScore);
 
         // Reset game state
         scene.gameState = running;
@@ -53,11 +51,11 @@ const Bases = {
 
         // Resume physics and reset ball
         scene.physics.resume();
-        Payloads.resetBall(scene);
-        Handles.playSound(scene, pongBeep);
+        resetBall(scene);
+        playSound(scene, audio.key.pong_beep);
     },
     text({ scene, x, y, title, style = {}, isVisible = true }) {
-        const config = { fontFamily: Fonts.arial, align: "center", fontWeight: "bold" };
+        const config = { fontFamily: arial, align: "center", fontWeight: "bold" };
         const txt = scene.add
             .text(x, y, title, { ...config, ...style })
             .setOrigin(0.5)
@@ -72,4 +70,16 @@ const Bases = {
     stop: (element) => element.body.setVelocityY(0),
 };
 
-export default Bases;
+export const {
+    flashEffect,
+    checkGameEnd,
+    pauseGame,
+    resumeGame,
+    restartGame,
+    text,
+    isMobile,
+    getById,
+    moveUp,
+    moveDown,
+    stop,
+} = Bases;

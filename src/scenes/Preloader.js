@@ -1,8 +1,7 @@
+import { audio, image, menu, preload } from "../consts";
+import { orange, white } from "../consts/color";
 import MyWebFont from "./MyWebFont";
-import Instances from "../consts";
-import Colors from "../consts/color";
 
-const { preload, menu } = Instances.scene;
 class Preloader extends Phaser.Scene {
     constructor() {
         super(preload);
@@ -20,7 +19,7 @@ class Preloader extends Phaser.Scene {
         const H = this.scale.height;
 
         // background
-        this.add.image(W / 2, H / 2, Instances.image.key.bg).setAlpha(0.4);
+        this.add.image(W / 2, H / 2, image.key.bg).setAlpha(0.4);
 
         // sizes
         const barWidth = 460;
@@ -39,7 +38,7 @@ class Preloader extends Phaser.Scene {
         this.progressText = this.add
             .text(cx, y + barHeight + 22, "Loading: 0%", {
                 fontSize: "20px",
-                color: Colors.white.css,
+                color: white.css,
             })
             .setOrigin(0.5);
 
@@ -48,7 +47,7 @@ class Preloader extends Phaser.Scene {
             this.fakeProgress = Phaser.Math.Linear(this.fakeProgress, this.targetProgress, 0.2);
 
             this.progressBar.clear();
-            this.progressBar.fillStyle(Colors.orange.hex, 1);
+            this.progressBar.fillStyle(orange.hex, 1);
             this.progressBar.fillRoundedRect(x, y, barWidth * this.fakeProgress, barHeight, radius);
 
             this.progressText.setText(`Loading: ${Math.round(this.fakeProgress * 100)}%`);
@@ -71,8 +70,8 @@ class Preloader extends Phaser.Scene {
 
         // load assets
         try {
-            const { key: imgKey, value: imgValue } = Instances.image;
-            const { key: soundKey, value: soundValue } = Instances.audio;
+            const { key: imgKey, value: imgValue } = image;
+            const { key: soundKey, value: soundValue } = audio;
             const fonts = new MyWebFont(this.load, ["Press Start 2P"]);
             this.load.addFile(fonts);
 
@@ -81,8 +80,8 @@ class Preloader extends Phaser.Scene {
             this.load.image(imgKey.right, imgValue.right);
             this.load.image(imgKey.ball, imgValue.ball);
 
-            this.load.audio(soundKey.pongBeep, soundValue.pongBeep);
-            this.load.audio(soundKey.pongPlop, soundValue.pongPlop);
+            this.load.audio(soundKey.pong_beep, soundValue.pong_beep);
+            this.load.audio(soundKey.pong_plop, soundValue.pong_plop);
             this.load.audio(soundKey.splash, soundValue.splash);
             this.load.audio(soundKey.playing, soundValue.playing);
         } catch (err) {

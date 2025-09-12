@@ -1,7 +1,7 @@
 const Fonts = {
-    pressStart2P: "'Press Start 2P', cursive",
-    courierNew: "Courier New, monospace",
+    start_2p: "'Press Start 2P', cursive",
+    courier: "Courier New, monospace",
     arial: "Arial Black, Gadget, sans-serif",
 };
 
-export default Fonts;
+export const { start_2p, courier, arial } = Fonts;

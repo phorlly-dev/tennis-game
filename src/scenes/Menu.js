@@ -1,30 +1,29 @@
-import Instances from "../consts";
-import Fonts from "../consts/font";
-import Bases from "../utils";
-import Handles from "../utils/handle";
+import { audio, game, image, menu, on, start } from "../consts";
+import { start_2p } from "../consts/font";
+import { isMobile, text } from "../utils";
+import { onClick, playSound } from "../utils/handle";
 
-const { menu, start } = Instances.scene;
 class Menu extends Phaser.Scene {
     constructor() {
         super(menu);
     }
 
     create() {
-        const { width, height } = Instances.game;
-        const bg = this.add.image(width / 2, height / 2, Instances.image.key.bg).setAlpha(0.2);
+        const { width, height } = game;
+        const bg = this.add.image(width / 2, height / 2, image.key.bg).setAlpha(0.2);
 
-        const title = Bases.text({
+        const title = text({
             scene: this,
             x: width / 2,
             y: height / 2 - 50,
             title: "Old School Tennis",
             style: {
                 fontSize: "48px",
-                fontFamily: Fonts.pressStart2P,
+                fontFamily: start_2p,
             },
         });
 
-        this.label = Bases.text({
+        this.label = text({
             scene: this,
             x: width / 2,
             y: height / 2 + 100,
@@ -34,7 +33,7 @@ class Menu extends Phaser.Scene {
             },
         });
 
-        Handles.event({
+        onClick({
             scene: this,
             keys: ["keydown-SPACE", "pointerdown"],
             callback: () => {
@@ -52,7 +51,7 @@ class Menu extends Phaser.Scene {
                 this.scene.start(start);
 
                 // play start sound (now safe after tap)
-                Handles.playSound(this, Instances.audio.key.pongBeep);
+                playSound(this, audio.key.pong_beep);
             },
         });
     }
@@ -61,7 +60,7 @@ class Menu extends Phaser.Scene {
         const m = "▶ Tap on screen to start!";
         const d = "Press Space or Click on screen to start!";
 
-        this.label.setText(Bases.isMobile() ? m : d);
+        this.label.setText(isMobile() ? m : d);
     }
 }
 

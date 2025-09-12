@@ -1,15 +1,15 @@
-import Instances from "./consts";
+import { desktop, mobile } from "./consts";
 import StartGame from "./scenes/Start";
-import Bases from "./utils";
-import Handles from "./utils/handle";
+import { isMobile } from "./utils";
+import { hide, show } from "./utils/handle";
 
 const applyDevice = () => {
-    if (Bases.isMobile()) {
-        Handles.hide({ id: Instances.control.desktop });
-        Handles.show({ id: Instances.control.mobile });
+    if (isMobile()) {
+        hide({ id: desktop });
+        show({ id: mobile });
     } else {
-        Handles.show({ id: Instances.control.desktop });
-        Handles.hide({ id: Instances.control.mobile });
+        show({ id: desktop });
+        hide({ id: mobile });
     }
 };
 

@@ -1,10 +1,9 @@
-import Bases from ".";
-import Instances from "../consts";
-import Payloads from "./playload";
+import { checkGameEnd, flashEffect } from ".";
+import { height, width } from "../consts";
+import { resetBall, setBotScore, setPlayerScore } from "./playload";
 
-const { width, height } = Instances.game;
 const States = {
-    hit(scene, ball, paddle) {
+    handleHit(scene, ball, paddle) {
         const hitPosition = (ball.y - paddle.y) / (paddle.height / 2);
         const bounceAngle = (hitPosition * Math.PI) / 4; // Max 45 degrees
 
@@ -21,34 +20,34 @@ const States = {
         );
 
         // Visual feedback
-        Bases.flashEffect(scene);
+        flashEffect(scene);
     },
-    ball(scene) {
+    ballHandler(scene) {
         // Manual top/bottom bouncing since we disabled world bounds collision
         if (scene.ball.y <= 12) {
             scene.ball.y = 12;
             scene.ball.body.velocity.y = Math.abs(scene.ball.body.velocity.y);
-            Bases.flashEffect(scene);
+            flashEffect(scene);
         } else if (scene.ball.y >= height - 12) {
             scene.ball.y = height - 12;
             scene.ball.body.velocity.y = -Math.abs(scene.ball.body.velocity.y);
-            Bases.flashEffect(scene);
+            flashEffect(scene);
         }
     },
-    score(scene) {
+    scoreHandler(scene) {
         // FIXED: Use screen boundaries for scoring, not paddle positions
         if (scene.ball.x < -20) {
             // Ball went past left side - AI scores
             scene.rightScore++;
-            Payloads.setBotScore(scene.rightScore);
-            Payloads.resetBall(scene);
-            Bases.checkGameEnd(scene);
+            setBotScore(scene.rightScore);
+            resetBall(scene);
+            checkGameEnd(scene);
         } else if (scene.ball.x > width + 20) {
             // Ball went past right side - Player scores
             scene.leftScore++;
-            Payloads.setPlayerScore(scene.leftScore);
-            Payloads.resetBall(scene);
-            Bases.checkGameEnd(scene);
+            setPlayerScore(scene.leftScore);
+            resetBall(scene);
+            checkGameEnd(scene);
         }
     },
     isTouchOrTablet(scene) {
@@ -69,4 +68,4 @@ const States = {
     },
 };
 
-export default States;
+export const { handleHit, ballHandler, scoreHandler, isTouchOrTablet } = States;
